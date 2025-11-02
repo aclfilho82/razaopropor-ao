@@ -3,118 +3,162 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Plataforma Interativa – Razão, Proporção e Regra de Três (v2)</title>
+  <title>Plataforma Interativa – Razão, Proporção e Regra de Três (Edição Completa)</title>
+  <!--
+    ==============================================================
+    EDIÇÃO COMPLETA (600+ LINHAS)
+    - Tema cinza (pedido do usuário)
+    - Professor Virtual ampliado (razão, proporção, direta, inversa, RT)
+    - Simulado com escolha de tópicos e até 30 questões
+    - Calculadora de Frações (fração simplificada, decimal, percentual)
+    - Calculadora de Regra de Três (com passo a passo visual)
+    - Exercícios fixos com correção e gabarito
+    - Gerador de problemas contextualizados (vários temas)
+    - Painel de desempenho com KPIs e persistência local
+    - Estrutura modular e comentada
+    ==============================================================
+  -->
   <style>
-    /* =========================
-       TEMA (cinza solicitado)
-       ========================= */
+    /* ==============================================================
+       THEME / TOKENS (CINZA SOLICITADO)
+       ==============================================================
+    */
     :root{
-      --bg:#e5e7eb;         /* gray-200 */
-      --card:#ffffff;       /* white */
-      --muted:#475569;      /* slate-600 */
-      --text:#0f172a;       /* slate-900 */
-      --accent:#2563eb;     /* blue-600 */
-      --accent2:#f59e0b;    /* amber-500 */
-      --ok:#16a34a;         /* green-600 */
-      --bad:#dc2626;        /* red-600 */
-      --chip:#f1f5f9;       /* slate-100 */
-      --input:#f8fafc;      /* slate-50 */
-      --border:#cbd5e1;     /* slate-300 */
+      --bg:#d1d5db;          /* gray-300 */
+      --bg-soft:#e5e7eb;     /* gray-200 */
+      --card:#f9fafb;        /* gray-50 */
+      --border:#cbd5e1;      /* slate-300 */
+      --ink:#111827;         /* slate-900 */
+      --muted:#475569;       /* slate-600 */
+      --accent:#2563eb;      /* blue-600 */
+      --accent-2:#8b5cf6;    /* violet-500 */
+      --accent-3:#f59e0b;    /* amber-500 */
+      --ok:#16a34a;          /* green-600 */
+      --bad:#dc2626;         /* red-600 */
+      --chip:#f1f5f9;        /* slate-100 */
+      --input:#ffffff;       /* white */
+      --shadow:0 8px 24px rgba(2,6,23,.08);
     }
+
     *{box-sizing:border-box}
-    body{margin:0;background:var(--bg);font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;color:var(--text)}
-    header{position:sticky;top:0;background:rgba(255,255,255,.9);backdrop-filter:blur(8px);z-index:10;border-bottom:1px solid var(--border)}
-    .wrap{max-width:1200px;margin:0 auto;padding:16px}
+    html,body{height:100%}
+    body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink)}
+
+    /* ==============================================================
+       HEADER
+       ==============================================================
+    */
+    header{position:sticky;top:0;z-index:20;background:rgba(249,250,251,.85);backdrop-filter:blur(8px);border-bottom:1px solid var(--border)}
+    .wrap{max-width:1280px;margin:0 auto;padding:16px}
     .brand{display:flex;align-items:center;gap:12px}
-    .brand .logo{width:36px;height:36px;border-radius:12px;background:conic-gradient(from 180deg,var(--accent),#8b5cf6,var(--accent2),var(--accent));box-shadow:0 0 24px rgba(37,99,235,.25)}
-    .brand h1{font-size:18px;margin:0;font-weight:800;letter-spacing:.2px}
+    .logo{width:38px;height:38px;border-radius:12px;box-shadow:var(--shadow);
+      background:conic-gradient(from 180deg,var(--accent),var(--accent-2),var(--accent-3),var(--accent));}
+    .brand h1{margin:0;font-size:18px;font-weight:900;letter-spacing:.2px}
+    .brand .pill{margin-left:auto}
 
-    main{display:grid;grid-template-columns:280px 1fr;gap:18px;max-width:1200px;margin:20px auto;padding:0 16px}
-    nav{position:sticky;top:86px;align-self:start;background:var(--card);border:1px solid var(--border);border-radius:16px;padding:14px}
-    nav h3{margin:6px 8px 12px;font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.12em}
-    .menu button{display:flex;width:100%;align-items:center;gap:10px;padding:10px 12px;margin:6px 0;background:var(--input);border:1px solid var(--border);color:var(--text);border-radius:12px;cursor:pointer;transition:.2s;font-weight:600}
-    .menu button:hover{border-color:#94a3b8;transform:translateY(-1px)}
-    .menu button.active{outline:2px solid var(--accent);background:#eff6ff}
+    /* ==============================================================
+       LAYOUT
+       ==============================================================
+    */
+    main{max-width:1280px;margin:22px auto;display:grid;grid-template-columns:280px 1fr;gap:18px;padding:0 16px}
+    @media (max-width:1020px){main{grid-template-columns:1fr}}
 
-    .card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:18px}
+    nav{align-self:start;position:sticky;top:88px;background:var(--card);border:1px solid var(--border);border-radius:18px;padding:14px;box-shadow:var(--shadow)}
+    nav h3{margin:6px 8px 10px;font-size:12px;text-transform:uppercase;color:var(--muted);letter-spacing:.12em}
+    .menu button{width:100%;text-align:left;background:var(--input);color:var(--ink);border:1px solid var(--border);border-radius:12px;padding:10px 12px;margin:6px 0;cursor:pointer;display:flex;align-items:center;gap:10px;font-weight:700}
+    .menu button:hover{border-color:#94a3b8;transform:translateY(-1px);transition:.18s}
+    .menu button.active{outline:2px solid var(--accent);background:#eef2ff}
+
+    /* ==============================================================
+       COMPONENTS
+       ==============================================================
+    */
+    .card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:18px;box-shadow:var(--shadow)}
     .grid{display:grid;gap:16px}
     .grid.two{grid-template-columns:repeat(2,minmax(0,1fr))}
     .grid.three{grid-template-columns:repeat(3,minmax(0,1fr))}
-    @media (max-width:980px){main{grid-template-columns:1fr}nav{position:static}}
+    .grid.four{grid-template-columns:repeat(4,minmax(0,1fr))}
+    @media (max-width:1020px){.grid.two,.grid.three,.grid.four{grid-template-columns:1fr}}
 
-    .badge{display:inline-flex;align-items:center;gap:8px;font-size:12px;color:white;background:linear-gradient(90deg,var(--accent),#8b5cf6);padding:4px 10px;border-radius:999px;font-weight:800}
+    .badge{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(90deg,var(--accent),var(--accent-2));color:white;font-weight:800;border-radius:999px;padding:5px 10px;font-size:12px}
+    .pill{display:inline-flex;align-items:center;gap:6px;background:var(--chip);border:1px solid var(--border);color:var(--muted);border-radius:999px;padding:4px 10px;font-size:12px}
     .kpi{display:flex;align-items:center;justify-content:space-between;background:var(--chip);border:1px dashed var(--border);border-radius:14px;padding:12px}
-    .muted{color:var(--muted)}
-    .pill{display:inline-block;padding:4px 10px;border-radius:999px;border:1px solid var(--border);color:var(--muted);font-size:12px;background:var(--chip)}
 
-    .btn{background:var(--accent);color:#fff;border:none;padding:10px 14px;border-radius:12px;font-weight:800;cursor:pointer;transition:.2s}
+    .btn{background:var(--accent);color:white;border:none;border-radius:12px;padding:10px 14px;font-weight:800;cursor:pointer}
     .btn:hover{filter:brightness(1.06)}
-    .btn.secondary{background:var(--input);color:var(--text);border:1px solid var(--border);font-weight:700}
+    .btn.secondary{background:var(--input);color:var(--ink);border:1px solid var(--border);font-weight:700}
+    .btn.ghost{background:transparent;color:var(--ink);border:1px dashed var(--border)}
 
-    input[type="number"], input[type="text"], select{width:100%;padding:10px;border-radius:10px;background:var(--input);border:1px solid var(--border);color:var(--text)}
+    input[type="number"], input[type="text"], textarea, select{width:100%;padding:10px;border-radius:10px;background:var(--input);border:1px solid var(--border);color:var(--ink)}
     .inline{display:flex;gap:10px;align-items:center}
-    .inline > *{flex:1}
+    .inline>*{flex:1}
 
+    .muted{color:var(--muted)}
     .good{color:var(--ok)}
     .bad{color:var(--bad)}
-    .hidden{display:none}
     .step{background:var(--chip);border-left:3px solid var(--accent);padding:10px 12px;border-radius:10px;margin-bottom:8px}
-    .code{font-family:ui-monospace,Menlo,Consolas,monospace;background:var(--input);border:1px solid var(--border);border-radius:10px;padding:8px}
-    .foot{margin-top:18px;color:var(--muted);font-size:12px}
-
-    .toggle{display:inline-flex;align-items:center;gap:10px;padding:6px 10px;border:1px solid var(--border);border-radius:999px;background:var(--chip)}
-    .switch{position:relative;width:46px;height:24px;background:#cbd5e1;border-radius:999px;cursor:pointer;transition:.2s}
-    .knob{position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:#fff;transition:.2s}
-    .switch.on{background:linear-gradient(90deg,var(--accent),#8b5cf6)}
-    .switch.on .knob{left:25px;background:#0b1220}
-
-    .chip{display:inline-flex;align-items:center;gap:8px;padding:6px 10px;border-radius:999px;background:var(--chip);border:1px solid var(--border);font-weight:600}
+    .code{font-family:ui-monospace,Menlo,Consolas,monospace;background:var(--input);border:1px solid var(--border);border-radius:10px;padding:6px 8px}
+    .foot{margin-top:12px;color:var(--muted);font-size:12px}
+    .hr{height:1px;background:var(--border);margin:10px 0}
   </style>
 </head>
 <body>
+  <!-- ==============================================================
+       HEADER
+       ==============================================================
+  -->
   <header>
     <div class="wrap">
       <div class="brand">
         <div class="logo"></div>
         <h1>Plataforma Interativa – Razão, Proporção e Regra de Três</h1>
-        <span class="pill" style="margin-left:auto">Tema: página cinza</span>
+        <span class="pill">Tema: Cinza</span>
       </div>
       <div class="inline" style="margin-top:10px">
-        <div class="toggle" title="Ativar/Desativar explicações automáticas do Professor Virtual">
-          <span class="muted">Explicações do Professor</span>
-          <div id="profToggle" class="switch"><div class="knob"></div></div>
-          <span id="profStatus" class="pill">OFF</span>
+        <div class="pill" title="Explicações automáticas do Professor Virtual">
+          <span>Professor:</span>
+          <span id="profStatus" class="badge" style="padding:2px 8px">OFF</span>
         </div>
-        <button id="btnSpeakTest" class="btn secondary" style="max-width:220px">🔊 Testar voz</button>
+        <button id="toggleProf" class="btn secondary" style="max-width:220px">🔊 Ativar Professor</button>
+        <button id="btnSpeakTest" class="btn secondary" style="max-width:220px">Testar voz</button>
       </div>
     </div>
   </header>
 
+  <!-- ==============================================================
+       MAIN LAYOUT
+       ==============================================================
+  -->
   <main>
     <nav>
       <h3>Conteúdo</h3>
       <div class="menu">
         <button class="active" data-view="dashboard">🏠 Visão Geral</button>
         <button data-view="teoria">📘 Teoria</button>
-        <button data-view="calculadora">🧮 Calculadora – Regra de Três</button>
+        <button data-view="fracao">➗ Frações (fração/decimal/% )</button>
+        <button data-view="calculadora">🧮 Regra de Três (passo a passo)</button>
         <button data-view="exercicios">📝 Exercícios Fixos</button>
         <button data-view="gerador">🎲 Gerador de Problemas</button>
-        <button data-view="simulado">🏆 Simulado</button>
+        <button data-view="simulado">🏆 Simulado (até 30)</button>
         <button data-view="desempenho">📊 Desempenho</button>
         <button data-view="professor">👨‍🏫 Professor Virtual</button>
       </div>
-      <div style="margin-top:14px" class="muted">Dica: responda no teclado e pressione <b>Enter</b> para corrigir.</div>
+      <div class="foot">Dica: pressione <b>Enter</b> para corrigir quando a questão tiver um campo.</div>
     </nav>
 
-    <section id="content">
-      <!-- Render dinâmico aqui -->
-    </section>
+    <section id="content"></section>
   </main>
 
+  <!-- ==============================================================
+       SCRIPT
+       ==============================================================
+  -->
   <script>
-    /*********************** UTIL ***********************/
-    const $ = (sel, root=document) => root.querySelector(sel);
-    const $$ = (sel, root=document) => Array.from(root.querySelectorAll(sel));
+    /**************************************************************
+     * UTILIDADES GERAIS
+     **************************************************************/
+    const $ = (s, r=document)=>r.querySelector(s);
+    const $$ = (s, r=document)=>Array.from(r.querySelectorAll(s));
 
     const store = {
       get kpi(){
@@ -123,7 +167,7 @@
       },
       set kpi(v){ localStorage.setItem('kpi', JSON.stringify(v)); },
       get prof(){ return (localStorage.getItem('prof_on')||'0')==='1' },
-      set prof(v){ localStorage.setItem('prof_on', v? '1':'0') }
+      set prof(v){ localStorage.setItem('prof_on', v? '1':'0'); }
     };
 
     function pct(a,b){return b?Math.round(100*a/b):0}
@@ -131,392 +175,282 @@
     function shuffle(arr){return arr.sort(()=>Math.random()-.5)}
     const fmt = n => Number(n.toFixed(4)).toString().replace('.',',');
 
-    function updateKpi(ok){
-      const k = store.kpi; k.feitos++; ok? k.acertos++ : k.erros++; store.kpi = k;
-    }
+    function updateKpi(ok){ const k = store.kpi; k.feitos++; ok? k.acertos++ : k.erros++; store.kpi = k; }
+    function resetKpi(){ localStorage.removeItem('kpi'); }
 
-    function stepList(steps){
-      return steps.map(s=>`<div class="step">${s}</div>`).join('');
-    }
+    function stepList(steps){ return steps.map(s=>`<div class="step">${s}</div>`).join(''); }
+    function setActive(view){ $$('.menu button').forEach(b=>b.classList.toggle('active', b.dataset.view===view)); router[view](); }
 
-    function setActive(view){
-      $$('.menu button').forEach(b=>b.classList.toggle('active', b.dataset.view===view));
-      router[view]();
-    }
-
-    /*********************** PROF – VOZ ***********************/
+    /**************************************************************
+     * VOZ / PROFESSOR
+     **************************************************************/
     let lastSpeech='';
-    function getMaleVoice(){
-      const voices = window.speechSynthesis.getVoices();
-      const br = voices.filter(v=>/pt-BR|pt_BR|português/i.test(v.lang||v.name||''));
-      const male = br.find(v=>/male|masculina|ricardo|brasil|brazil/i.test(v.name||''));
-      return male || br[0] || voices.find(v=>/pt/i.test(v.lang||'')) || voices[0] || null;
+    function getPtVoice(){
+      try{
+        const voices = window.speechSynthesis.getVoices();
+        const br = voices.filter(v=>/pt-BR|pt_BR|portugu/i.test(v.lang||v.name||''));
+        return br[0] || voices.find(v=>/pt/i.test(v.lang||'')) || voices[0] || null;
+      }catch(e){return null}
     }
     function speak(text){
       if(!('speechSynthesis' in window)) return;
-      const u = new SpeechSynthesisUtterance(text);
-      u.lang='pt-BR'; u.rate=1; u.pitch=1; u.volume=1;
-      const v = getMaleVoice(); if(v) u.voice=v;
-      speechSynthesis.cancel();
-      speechSynthesis.speak(u); lastSpeech=text;
+      const u = new SpeechSynthesisUtterance(text); u.lang='pt-BR';
+      const v = getPtVoice(); if(v) u.voice=v; u.rate=1; u.pitch=1; u.volume=1;
+      speechSynthesis.cancel(); speechSynthesis.speak(u); lastSpeech=text;
     }
     function explainIfOn(text){ if(store.prof){ insertExplanation(text); speak(text); } }
-    function insertExplanation(text){
-      const box = document.createElement('div');
-      box.className='step';
-      box.innerHTML = `<b>👨‍🏫 Explicação do Professor:</b> ${text}`;
-      $('#content').prepend(box);
-    }
+    function insertExplanation(text){ const div=document.createElement('div'); div.className='step'; div.innerHTML = `<b>👨‍🏫 Explicação:</b> ${text}`; $('#content')?.prepend(div); }
 
-    function updateProfToggleUI(){
-      const sw = $('#profToggle'); const st = $('#profStatus');
-      if(store.prof){ sw.classList.add('on'); st.textContent='ON'; st.classList.remove('muted'); }
-      else { sw.classList.remove('on'); st.textContent='OFF'; }
-    }
+    function updateProfUI(){ $('#profStatus').textContent = store.prof? 'ON' : 'OFF'; }
 
-    /*********************** CONTEÚDO ***********************/
+    /**************************************************************
+     * CONTEÚDO – TEORIA
+     **************************************************************/
     const teoriaBlocos = [
-      {titulo:"Razão (a:b ou a/b)", conteudo:`Razão compara duas grandezas de mesma espécie. Ex.: a razão vitórias/derrotas de um time pode ser <b>14:6</b> ou <b>14/6</b>. Pode ser simplificada (dividindo ambos os termos pelo mesmo número) e escrita na forma decimal ou percentual.`, exemplo:`Em 50 jogos, 30 foram vitórias. Razão vitórias/jogos = 30/50 = 3/5 = 0,6 = 60%.`},
-      {titulo:"Proporção", conteudo:`É a igualdade entre duas razões: <span class="code">a/b = c/d</span>. Numa proporção vale a <b>propriedade fundamental</b>: o produto dos meios é igual ao produto dos extremos (ad = bc).`, exemplo:`Se 3/5 = x/20, então 3·20 = 5·x ⇒ x = 12.`},
-      {titulo:"Grandezas diretamente proporcionais (D.P.)", conteudo:`Se ao aumentar uma, a outra aumenta na mesma proporção. Tabela típica: mais horas trabalhadas ⇒ maior salário. Em D.P., a razão entre os valores é constante: y/x = k.`, exemplo:`Preço pago é proporcional à quantidade: 2 kg custam R$ 18; 5 kg custam 5/2·18 = R$ 45.`},
-      {titulo:"Grandezas inversamente proporcionais (I.P.)", conteudo:`Se ao aumentar uma, a outra diminui na mesma proporção (ex.: velocidade e tempo para um mesmo percurso). Em I.P., o produto é constante: x·y = k.`, exemplo:`A 60 km/h gasto 3 h; a 90 km/h gasto 2 h, pois 60·3 = 180 e 90·2 = 180.`},
-      {titulo:"Regra de Três Simples", conteudo:`Método para encontrar um quarto valor quando três são conhecidos. <b>Direta</b>: as grandezas são D.P. ⇒ montamos a proporção <span class="code">a/b = c/x</span>. <b>Inversa</b>: são I.P. ⇒ inverta uma das grandezas: <span class="code">a/b = x/c</span>.`, exemplo:`Direta: 5 operários fazem a obra em 30 dias; 15 operários em x dias ⇒ 5/15 = x/30 ⇒ x = 10. Inversa: 3 torneiras enchem em 12 h; 6 torneiras em x h ⇒ 3/6 = 12/x ⇒ x = 6.`},
-      {titulo:"Outras propriedades das proporções", conteudo:`Podemos somar/ subtrair numeradores e denominadores correspondentes, permutar meios ou extremos e gerar novas proporções equivalentes, preservando a igualdade.`, exemplo:`Se a/b = c/d, então (a+c)/(b+d) = a/b = c/d (quando as razões são iguais).`}
+      {titulo:"Razão (a:b ou a/b)", conteudo:`Razão compara duas grandezas de mesma espécie. Pode ser simplificada dividindo ambos os termos por um mesmo número.`, exemplo:`Em 50 jogos, 30 vitórias ⇒ 30/50 = 3/5 = 0,6 = 60%.`},
+      {titulo:"Proporção", conteudo:`Igualdade entre duas razões: <span class='code'>a/b = c/d</span>. Propriedade fundamental: <b>a·d = b·c</b>.`, exemplo:`3/5 = x/20 ⇒ 3·20 = 5·x ⇒ x=12.`},
+      {titulo:"Diretamente proporcionais (D.P.)", conteudo:`Quando uma grandeza aumenta, a outra aumenta na mesma proporção.`, exemplo:`Custo ∝ quantidade: 2 kg → R$ 18; 5 kg → R$ 45.`},
+      {titulo:"Inversamente proporcionais (I.P.)", conteudo:`Quando uma aumenta, a outra diminui na mesma proporção.`, exemplo:`Velocidade × tempo constante para a mesma distância.`},
+      {titulo:"Regra de Três Simples", conteudo:`Método para encontrar um valor desconhecido a partir de três valores conhecidos. Identifique se é direta ou inversa.`, exemplo:`Direta: a/b=c/x; Inversa: a/b=x/c.`},
+      {titulo:"Propriedades úteis", conteudo:`Podemos permutar meios ou extremos, somar/subtrair numeradores e denominadores correspondentes, mantendo a igualdade quando as razões são iguais.`, exemplo:`Se a/b=c/d=k então (a+c)/(b+d)=k.`}
     ];
 
-    /*********************** VIEWS ***********************/
+    /**************************************************************
+     * VIEWS
+     **************************************************************/
     const router = {
       dashboard(){
         $('#content').innerHTML = `
-          <div class="grid two">
-            <div class="card">
-              <span class="badge">Comece por aqui</span>
+          <div class=\"grid two\">
+            <div class=\"card\">
+              <span class=\"badge\">Comece por aqui</span>
               <h2>Mapa de estudos</h2>
-              <p class="muted">Revise rapidamente os tópicos e pratique com exercícios e simulados. Seu progresso fica salvo no dispositivo.</p>
-              <div class="grid three" style="margin-top:8px">
-                <div class="kpi"><div>
-                  <div class="muted">Questões feitas</div>
-                  <div id="kpi-feitos" style="font-weight:800;font-size:22px">0</div>
-                </div><span class="pill">diário</span></div>
-                <div class="kpi"><div>
-                  <div class="muted">Acertos</div>
-                  <div id="kpi-acertos" class="good" style="font-weight:800;font-size:22px">0</div>
-                </div><span class="pill">taxa</span></div>
-                <div class="kpi"><div>
-                  <div class="muted">Erros</div>
-                  <div id="kpi-erros" class="bad" style="font-weight:800;font-size:22px">0</div>
-                </div><span class="pill">para revisar</span></div>
+              <p class=\"muted\">Revisão de tópicos, exercícios guiados, simulados e gerador de problemas. Seu progresso fica salvo no dispositivo.</p>
+              <div class=\"grid three\" style=\"margin-top:8px\">
+                <div class=\"kpi\"><div><div class=\"muted\">Questões feitas</div><div id=\"kpi-feitos\" style=\"font-weight:800;font-size:22px\">0</div></div><span class=\"pill\">hoje</span></div>
+                <div class=\"kpi\"><div><div class=\"muted\">Acertos</div><div id=\"kpi-acertos\" class=\"good\" style=\"font-weight:800;font-size:22px\">0</div></div><span class=\"pill\">taxa</span></div>
+                <div class=\"kpi\"><div><div class=\"muted\">Erros</div><div id=\"kpi-erros\" class=\"bad\" style=\"font-weight:800;font-size:22px\">0</div></div><span class=\"pill\">revisão</span></div>
               </div>
-              <div class="foot">Dica: alterne entre <b>Gerador</b> e <b>Simulado</b> para treinar velocidade e interpretação.</div>
+              <div class=\"foot\">Dica: alterne entre <b>Gerador</b> e <b>Simulado</b> para treinar velocidade e interpretação.</div>
             </div>
-            <div class="card">
+            <div class=\"card\">
               <h3>Atalhos rápidos</h3>
-              <div class="grid two">
-                <button class="btn" onclick="setActive('teoria')">📘 Teoria resumida</button>
-                <button class="btn" onclick="setActive('calculadora')">🧮 Regra de Três (passo a passo)</button>
-                <button class="btn" onclick="setActive('gerador')">🎲 Gerar problemas</button>
-                <button class="btn" onclick="setActive('simulado')">🏆 Simulado</button>
+              <div class=\"grid two\">
+                <button class=\"btn\" onclick=\"setActive('teoria')\">📘 Teoria</button>
+                <button class=\"btn\" onclick=\"setActive('fracao')\">➗ Frações</button>
+                <button class=\"btn\" onclick=\"setActive('calculadora')\">🧮 Regra de Três</button>
+                <button class=\"btn\" onclick=\"setActive('simulado')\">🏆 Simulado</button>
               </div>
             </div>
           </div>`;
         const k = store.kpi; $('#kpi-feitos').textContent = k.feitos; $('#kpi-acertos').textContent = `${k.acertos} (${pct(k.acertos,k.feitos)}%)`; $('#kpi-erros').textContent = `${k.erros}`;
-        explainIfOn('Bem-vindo! Aqui você acompanha KPIs e acessa teoria, calculadora, exercícios, gerador e simulado.');
+        explainIfOn('Bem-vindo! Explore teoria, frações, calculadora de regra de três, exercícios e simulados até 30 questões.');
       },
 
       teoria(){
         $('#content').innerHTML = `
-          <div class="card">
-            <h2>📘 Teoria resumida</h2>
-            <p class="muted">Conteúdo organizado: razão, proporção, propriedades, grandezas diretamente e inversamente proporcionais e regra de três.</p>
-          </div>
-          <div class="grid two">
+          <div class=\"card\"><h2>📘 Teoria resumida</h2><p class=\"muted\">Conceitos essenciais de razão, proporção e regra de três.</p></div>
+          <div class=\"grid two\">
             ${teoriaBlocos.map(b=>`
-              <div class="card">
-                <h3 style="margin:0 0 8px">${b.titulo}</h3>
-                <p>${b.conteudo}</p>
-                <p class="step"><b>Exemplo:</b> ${b.exemplo}</p>
-              </div>
+              <div class=\"card\"><h3 style=\"margin:0 0 8px\">${b.titulo}</h3><p>${b.conteudo}</p><p class=\"step\"><b>Exemplo:</b> ${b.exemplo}</p></div>
             `).join('')}
-          </div>
-        `;
-        explainIfOn('Nesta seção revisamos razão, proporção, direta, inversa e regra de três. Na proporção, produto dos meios = produto dos extremos.');
+          </div>`;
+        explainIfOn('Na proporção, lembramos que produto dos meios é igual ao produto dos extremos.');
+      },
+
+      fracao(){
+        $('#content').innerHTML = `
+          <div class=\"card\">
+            <h2>➗ Calculadora de Frações</h2>
+            <p class=\"muted\">Digite a fração e veja a forma simplificada, decimal e percentual. A fração é exibida também de maneira \"empilhada\" (vertical).</p>
+            <div class=\"grid two\">
+              <div>
+                <label>Fração</label>
+                <input id=\"fractionInput\" type=\"text\" placeholder=\"Ex.: 18/24\" />
+                <div class=\"inline\"><button class=\"btn\" id=\"btnFrac\">Resolver</button><button class=\"btn secondary\" id=\"btnFracClear\">Limpar</button></div>
+              </div>
+              <div>
+                <h3>Resultado</h3>
+                <div id=\"resultado\" class=\"step\"></div>
+                <div id=\"resultadoFancy\" class=\"step\" style=\"display:none\"></div>
+              </div>
+            </div>
+            <div class=\"foot\">Dica: use números inteiros positivos. Em breve suportaremos sinais e mistas.</div>
+          </div>`;
+        $('#btnFrac').onclick = resolverFracao;
+        $('#btnFracClear').onclick = ()=>{ $('#fractionInput').value=''; $('#resultado').innerHTML=''; $('#resultadoFancy').style.display='none'; $('#resultadoFancy').innerHTML=''; };
+        explainIfOn('Para simplificar frações, calcule o máximo divisor comum (mdc). Depois divida numerador e denominador pelo mdc.');
       },
 
       calculadora(){
         $('#content').innerHTML = `
-          <div class="card">
-            <h2>🧮 Calculadora de Regra de Três – com passo a passo</h2>
-            <p class="muted">Escolha o tipo de relação entre as grandezas e informe os três valores conhecidos. A plataforma monta e resolve a proporção automaticamente.</p>
-            <div class="grid two">
+          <div class=\"card\">
+            <h2>🧮 Regra de Três – Passo a passo</h2>
+            <p class=\"muted\">Informe três valores e deixe um em branco para achar o desconhecido. Escolha se é relação direta ou inversa.</p>
+            <div class=\"grid two\">
               <div>
                 <label>Tipo</label>
-                <select id="tipoRT">
-                  <option value="direta">Direta (D.P.)</option>
-                  <option value="inversa">Inversa (I.P.)</option>
-                </select>
-                <div class="grid two" style="margin-top:10px">
+                <select id=\"tipoRT\"><option value=\"direta\">Direta (D.P.)</option><option value=\"inversa\">Inversa (I.P.)</option></select>
+                <div class=\"grid two\" style=\"margin-top:10px\">
                   <div>
                     <label>1ª grandeza</label>
-                    <div class="inline"><input id="a1" type="number" placeholder="a" /><input id="b1" type="number" placeholder="b" /></div>
+                    <div class=\"inline\"><input id=\"a1\" type=\"number\" placeholder=\"a\" /><input id=\"b1\" type=\"number\" placeholder=\"b\" /></div>
                   </div>
                   <div>
                     <label>2ª grandeza</label>
-                    <div class="inline"><input id="a2" type="number" placeholder="c" /><input id="b2" type="number" placeholder="x" /></div>
+                    <div class=\"inline\"><input id=\"a2\" type=\"number\" placeholder=\"c\" /><input id=\"b2\" type=\"number\" placeholder=\"x\" /></div>
                   </div>
                 </div>
-                <div style="margin-top:12px" class="inline">
-                  <button class="btn" id="btnSolve">Resolver</button>
-                  <button class="btn secondary" id="btnClear">Limpar</button>
-                </div>
+                <div class=\"inline\" style=\"margin-top:12px\"><button class=\"btn\" id=\"btnSolve\">Resolver</button><button class=\"btn secondary\" id=\"btnClear\">Limpar</button></div>
               </div>
               <div>
                 <h3>Passo a passo</h3>
-                <div id="solucao" class="grid"></div>
+                <div id=\"solucao\" class=\"grid\"></div>
               </div>
             </div>
           </div>`;
-
-        $('#btnClear').onclick = ()=>{['a1','b1','a2','b2'].forEach(id=>$('#'+id).value=''); $('#solucao').innerHTML=''}
-        $('#btnSolve').onclick = ()=>{
-          const tipo = $('#tipoRT').value;
-          const a = parseFloat($('#a1').value), b = parseFloat($('#b1').value), c = parseFloat($('#a2').value);
-          if([a,b,c].some(v=>!isFinite(v))){ alert('Preencha a, b e c com números.'); return; }
-          let steps=[], x;
-          if(tipo==='direta'){
-            steps.push(`Grandezas diretamente proporcionais ⇒ montamos <span class="code">a/b = c/x</span>.`);
-            steps.push(`Substituindo: <span class="code">${fmt(a)}/${fmt(b)} = ${fmt(c)}/x</span>.`);
-            steps.push(`P.F. da proporção: <b>produto dos meios = produto dos extremos</b> ⇒ <span class="code">${fmt(b)}·${fmt(c)} = ${fmt(a)}·x</span>.`);
-            x = (b*c)/a;
-          } else {
-            steps.push(`Grandezas inversamente proporcionais ⇒ invertemos uma razão: <span class="code">a/b = x/c</span>.`);
-            steps.push(`Substituindo: <span class="code">${fmt(a)}/${fmt(b)} = x/${fmt(c)}</span>.`);
-            steps.push(`P.F.: <span class="code">${fmt(a)}·${fmt(c)} = ${fmt(b)}·x</span>.`);
-            x = (a*c)/b;
-          }
-          steps.push(`<b>Solução:</b> x = <span class="code">${fmt(x)}</span>.`);
-          $('#solucao').innerHTML = stepList(steps);
-          explainIfOn('Observe como identificamos direta ou inversa. Para direta, usamos a sobre b igual a c sobre x. Para inversa, invertimos uma das razões antes do produto cruzado.');
-        }
-        explainIfOn('Use esta calculadora para ver o passo a passo da regra de três.');
+        $('#btnClear').onclick=()=>{['a1','b1','a2','b2'].forEach(id=>$('#'+id).value=''); $('#solucao').innerHTML='';};
+        $('#btnSolve').onclick=resolverRT;
+        explainIfOn('Na direta, montamos a/b = c/x. Na inversa, invertemos uma das razões: a/b = x/c. Use o produto dos meios e extremos.');
       },
 
       exercicios(){
-        const questoes = [
-          { enunciado:"(Razão) Em uma Copa, o time A venceu 14 e perdeu 6. Escreva a razão vitórias/derrotas e simplifique.", tipo:'texto', resp:"7/3",
-            gabarito:"7/3",
-            correcao:v=> v.replace(/\s/g,'')==="7/3"||v.replace(/\s/g,'')==="7:3",
-            solução:[
-              'Razão v/d = 14/6.',
-              'Simplifique dividindo ambos por 2 ⇒ 7/3.',
-              'Equivalente a 2,333… (aprox.).'
-            ]
-          },
-          { enunciado:"(Proporção) Se 3/5 = x/20, calcule x.", tipo:'numero', resp:12,
-            gabarito:"12",
-            correcao:v=> Math.abs(v-12)<1e-9,
-            solução:[
-              'Proporção: 3/5 = x/20.',
-              'Produto dos meios = produto dos extremos: 5·x = 3·20.',
-              'x = 60/5 = 12.'
-            ]
-          },
-          { enunciado:"(Direta) 2 kg custam R$18. Quanto custam 5 kg?", tipo:'numero', resp:45,
-            gabarito:"45",
-            correcao:v=>Math.abs(v-45)<1e-9,
-            solução:[
-              'Preço ∝ quantidade (direta).',
-              '2/18 = 5/x ⇒ x = 18·5/2.',
-              'x = 45 (reais).'
-            ]
-          },
-          { enunciado:"(Inversa) Um percurso leva 3 h a 60 km/h. Quanto tempo a 90 km/h? (em horas)", tipo:'numero', resp:2,
-            gabarito:"2",
-            correcao:v=>Math.abs(v-2)<1e-9,
-            solução:[
-              'Tempo ∝ 1/velocidade (inversa).',
-              '60·3 = 90·x ⇒ x = (60·3)/90.',
-              'x = 2 horas.'
-            ]
-          },
-          { enunciado:"(Propriedade) Se a/b = c/d = k, então (a+c)/(b+d) também é igual a k quando?", tipo:'alternativas',
-            alternativas:["Quando a/b = c/d (mesma razão)","Sempre, para quaisquer a,b,c,d","Apenas se a=d"],
-            resp:0,
-            gabarito:"Quando a/b = c/d (mesma razão)",
-            solução:[
-              'Se a/b = c/d = k, então a=kb e c=kd.',
-              '(a+c)/(b+d) = (kb+kd)/(b+d) = k(b+d)/(b+d) = k.',
-              'Válido quando as razões são iguais (mesmo k).'
-            ]
-          }
-        ];
+        const questoes = buildQuestoesFixas();
         renderQuestoes(questoes, 'exercicios');
-        explainIfOn('Resolva as questões e veja a resolução comentada. Se errar, observe o gabarito e o passo a passo.');
+        explainIfOn('Ao corrigir, observe o passo a passo e o gabarito quando errar.');
       },
 
       gerador(){
         $('#content').innerHTML = `
-          <div class="card">
+          <div class=\"card\">
             <h2>🎲 Gerador de problemas contextualizados</h2>
-            <p class="muted">Escolha o tema e o tipo e clique em <b>Gerar</b>. A correção é automática e com explicação.</p>
-            <div class="inline">
-              <select id="temaGen">
-                <option value="esportes">Esportes</option>
-                <option value="obras">Construção/Obras</option>
-                <option value="cozinha">Receitas/Culinária</option>
-                <option value="viagem">Viagem/Trânsito</option>
-                <option value="mercado">Mercado/Consumo</option>
+            <p class=\"muted\">Escolha o tema e o tipo de relação. A questão é criada automaticamente com correção e explicação.</p>
+            <div class=\"inline\">
+              <select id=\"temaGen\">
+                <option value=\"esportes\">Esportes</option>
+                <option value=\"obras\">Construção/Obras</option>
+                <option value=\"cozinha\">Receitas/Culinária</option>
+                <option value=\"viagem\">Viagem/Trânsito</option>
+                <option value=\"mercado\">Mercado/Consumo</option>
               </select>
-              <select id="tipoGen">
-                <option value="razao">Razão</option>
-                <option value="proporcao">Proporção</option>
-                <option value="direta">Direta</option>
-                <option value="inversa">Inversa</option>
-                <option value="regra3">Regra de Três</option>
+              <select id=\"tipoGen\">
+                <option value=\"razao\">Razão</option>
+                <option value=\"proporcao\">Proporção</option>
+                <option value=\"direta\">Direta</option>
+                <option value=\"inversa\">Inversa</option>
+                <option value=\"regra3\">Regra de Três</option>
               </select>
-              <button class="btn" id="btnGen">Gerar</button>
+              <button class=\"btn\" id=\"btnGen\">Gerar</button>
             </div>
           </div>
-          <div class="card" id="boxProb" style="display:none"></div>`;
-
+          <div class=\"card\" id=\"boxProb\" style=\"display:none\"></div>`;
         $('#btnGen').onclick = ()=>{
           const tema = $('#temaGen').value; const tipo=$('#tipoGen').value;
-          const q = gerarProblema(tema, tipo);
-          $('#boxProb').style.display='block';
-          $('#boxProb').innerHTML = renderQuestao(q, true);
-          attachCorrection('#boxProb', [q]);
-          explainIfOn('Leia com atenção o enunciado gerado. Identifique se a relação é direta ou inversa antes de montar a proporção.');
+          const q = gerarProblema(tema, tipo); $('#boxProb').style.display='block'; $('#boxProb').innerHTML = renderQuestao(q, true); attachCorrection('#boxProb', [q]);
+          explainIfOn('Leia o enunciado com atenção e identifique a relação entre grandezas antes de montar a proporção.');
         }
-        explainIfOn('Use o gerador para treinar interpretação com contextos do dia a dia.');
       },
 
       simulado(){
-        // UI para o usuário escolher temas e quantidade (10 a 30)
         $('#content').innerHTML = `
-          <div class="card">
+          <div class=\"card\">
             <h2>🏆 Simulado personalizável</h2>
-            <p class="muted">Escolha os tópicos e a quantidade de questões (10 a 30). Os resultados contam no seu desempenho.</p>
-            <div class="grid two">
+            <p class=\"muted\">Selecione tópicos e a quantidade de questões (10 a 30). Os resultados contam nos seus KPIs.</p>
+            <div class=\"grid two\">
               <div>
                 <h3>🧩 Tópicos</h3>
-                <label class="chip"><input type="checkbox" id="t-razao" checked> Razão</label>
-                <label class="chip"><input type="checkbox" id="t-proporcao" checked> Proporção</label>
-                <label class="chip"><input type="checkbox" id="t-direta" checked> Direta</label>
-                <label class="chip"><input type="checkbox" id="t-inversa" checked> Inversa</label>
-                <label class="chip"><input type="checkbox" id="t-regra3" checked> Regra de Três</label>
+                <label class=\"pill\"><input type=\"checkbox\" id=\"t-razao\" checked> Razão</label>
+                <label class=\"pill\"><input type=\"checkbox\" id=\"t-proporcao\" checked> Proporção</label>
+                <label class=\"pill\"><input type=\"checkbox\" id=\"t-direta\" checked> Direta</label>
+                <label class=\"pill\"><input type=\"checkbox\" id=\"t-inversa\" checked> Inversa</label>
+                <label class=\"pill\"><input type=\"checkbox\" id=\"t-regra3\" checked> Regra de Três</label>
               </div>
               <div>
                 <h3>🔢 Quantidade</h3>
-                <div class="inline"><input id="qtd" type="number" min="10" max="30" value="30"/><button class="btn" id="btnGo">Gerar simulado</button></div>
-                <div class="foot">Dica: comece com 10 para aquecer; depois tente 30.</div>
+                <div class=\"inline\"><input id=\"qtd\" type=\"number\" min=\"10\" max=\"30\" value=\"30\"/><button class=\"btn\" id=\"btnGo\">Gerar simulado</button></div>
+                <div class=\"foot\">Dica: comece com 10, depois tente 30 para treinar resistência.</div>
               </div>
             </div>
           </div>
-          <div id="simuBox"></div>`;
-
+          <div id=\"simuBox\"></div>`;
         $('#btnGo').onclick = ()=>{
           const temas=[]; if($('#t-razao').checked) temas.push('razao'); if($('#t-proporcao').checked) temas.push('proporcao'); if($('#t-direta').checked) temas.push('direta'); if($('#t-inversa').checked) temas.push('inversa'); if($('#t-regra3').checked) temas.push('regra3');
-          let n = parseInt($('#qtd').value)||30; n=Math.max(10,Math.min(30,n));
-          if(temas.length===0){ alert('Selecione pelo menos um tópico.'); return; }
+          let n = parseInt($('#qtd').value)||30; n=Math.max(10,Math.min(30,n)); if(!temas.length){ alert('Selecione pelo menos um tópico.'); return; }
           const qs = Array.from({length:n}, ()=> gerarProblema(['esportes','obras','cozinha','viagem','mercado'][randInt(0,4)], temas[randInt(0,temas.length-1)] ));
-          $('#simuBox').innerHTML = '';
-          renderQuestoes(qs, 'simulado');
-          explainIfOn(`Simulado com ${n} questões. Gerencie o tempo e revise as resoluções ao final.`);
+          $('#simuBox').innerHTML = ''; renderQuestoes(qs, 'simulado'); explainIfOn(`Simulado gerado com ${n} questões.`);
         }
       },
 
       desempenho(){
         const k = store.kpi;
         $('#content').innerHTML = `
-          <div class="card">
+          <div class=\"card\">
             <h2>📊 Seu desempenho</h2>
-            <div class="grid three" style="margin-top:8px">
-              <div class="kpi"><div><div class="muted">Feitos</div><div style="font-weight:800;font-size:24px">${k.feitos}</div></div></div>
-              <div class="kpi"><div><div class="muted">Acertos</div><div class="good" style="font-weight:800;font-size:24px">${k.acertos} (${pct(k.acertos,k.feitos)}%)</div></div></div>
-              <div class="kpi"><div><div class="muted">Erros</div><div class="bad" style="font-weight:800;font-size:24px">${k.erros}</div></div></div>
+            <div class=\"grid three\" style=\"margin-top:8px\">
+              <div class=\"kpi\"><div><div class=\"muted\">Feitos</div><div style=\"font-weight:800;font-size:24px\">${k.feitos}</div></div></div>
+              <div class=\"kpi\"><div><div class=\"muted\">Acertos</div><div class=\"good\" style=\"font-weight:800;font-size:24px\">${k.acertos} (${pct(k.acertos,k.feitos)}%)</div></div></div>
+              <div class=\"kpi\"><div><div class=\"muted\">Erros</div><div class=\"bad\" style=\"font-weight:800;font-size:24px\">${k.erros}</div></div></div>
             </div>
-            <div class="foot">Os dados ficam armazenados apenas no seu navegador (localStorage). Você pode zerar em <b>Configurações</b> abaixo.</div>
+            <div class=\"foot\">Os dados ficam armazenados apenas no seu navegador (localStorage). Você pode zerar abaixo.</div>
           </div>
-          <div class="card">
-            <h3>Configurações</h3>
-            <button class="btn secondary" id="reset">Zerar histórico</button>
-          </div>`;
-        $('#reset').onclick = ()=>{ localStorage.removeItem('kpi'); setActive('dashboard'); };
-        explainIfOn('Use esta página para acompanhar seu progresso. Uma boa meta é manter a taxa de acertos acima de 70%.');
+          <div class=\"card\"><h3>Configurações</h3><button class=\"btn secondary\" id=\"reset\">Zerar histórico</button></div>`;
+        $('#reset').onclick = ()=>{ resetKpi(); setActive('dashboard'); };
       },
 
       professor(){
         $('#content').innerHTML = `
-          <div class="card">
+          <div class=\"card\">
             <h2>👨‍🏫 Professor Virtual</h2>
-            <p class="muted">Digite sua dúvida e ouça a explicação em voz masculina. Exemplos: "o que é proporção?", "como montar regra de três direta?", "explique razão".</p>
-            <div class="inline">
-              <input id="duvida" type="text" placeholder="Escreva sua pergunta aqui..." />
-              <button class="btn" id="responder">Responder</button>
-            </div>
-            <div class="inline" style="margin-top:10px">
-              <button class="btn secondary" id="repetir">🔊 Repetir</button>
-              <button class="btn secondary" id="parar">⏹ Parar</button>
-            </div>
-            <div id="resposta" class="step" style="margin-top:12px"></div>
-            <div class="foot">Dica: você pode colar um enunciado inteiro aqui e pedir uma dica passo a passo.</div>
+            <p class=\"muted\">Pergunte sobre razão, proporção, direta, inversa ou regra de três. Eu respondo e leio em voz alta.</p>
+            <div class=\"inline\"><input id=\"duvida\" type=\"text\" placeholder=\"Escreva sua pergunta...\"/><button class=\"btn\" id=\"responder\">Responder</button></div>
+            <div class=\"inline\" style=\"margin-top:10px\"><button class=\"btn secondary\" id=\"repetir\">🔊 Repetir</button><button class=\"btn secondary\" id=\"parar\">⏹ Parar</button></div>
+            <div id=\"resposta\" class=\"step\" style=\"margin-top:12px\"></div>
           </div>`;
-
-        const explicar = (txt)=>{
-          const d = (txt||'').toLowerCase();
-          let r = '';
-          if(d.includes('razão') || d.includes('razao')) r = 'Razão é a comparação entre duas grandezas da mesma espécie, escrita como a:b ou a/b. Podemos simplificar dividindo ambos os termos por um mesmo número. Exemplo: 30 vitórias em 50 jogos → 30/50 = 3/5 = 0,6 = 60%.';
-          else if(d.includes('propor') && d.includes('invers')) r = 'Proporção inversa ocorre quando o aumento de uma grandeza provoca a diminuição da outra na mesma razão. Para resolver regra de três inversa, inverta uma das razões antes de aplicar a proporção.';
-          else if(d.includes('propor')) r = 'Proporção é a igualdade entre duas razões. Na proporção, o produto dos meios é igual ao produto dos extremos: a·d = b·c. Exemplo: 3/5 = x/20 ⇒ 3·20 = 5·x ⇒ x = 12.';
-          else if(d.includes('diret')) r = 'Grandezas diretamente proporcionais: quando uma aumenta, a outra aumenta na mesma proporção. A razão y/x permanece constante. Use regra de três direta: a/b = c/x.';
-          else if(d.includes('invers')) r = 'Grandezas inversamente proporcionais: quando uma aumenta, a outra diminui na mesma proporção. O produto x·y permanece constante. Na regra de três, inverta uma razão.';
-          else if(d.includes('regra') && d.includes('três')) r = 'Regra de três é o método para encontrar um quarto valor a partir de três conhecidos. Identifique se a relação é direta ou inversa, monte a proporção e resolva pelo produto cruzado.';
-          else if(d.includes('exemplo') || d.includes('como fazer')) r = 'Exemplo rápido (direta): 2 kg custam 18 reais. Quanto custam 5 kg? 2/18 = 5/x ⇒ x = 18·5/2 = 45.';
-          else r = 'Posso ajudar com razão, proporção, direta, inversa e regra de três. Escreva sua dúvida de forma objetiva, por exemplo: "o que é proporção?" ou "como sei se é direta ou inversa?"';
-          $('#resposta').innerHTML = `<b>Explicação:</b> ${r}`;
-          speak(r);
+        const explicar=(txt)=>{
+          const d=(txt||'').toLowerCase(); let r='';
+          if(d.includes('razão')||d.includes('razao')) r='Razão é a comparação entre duas grandezas da mesma espécie, escrita como a:b ou a/b. Ex.: 30/50 = 3/5 = 0,6 = 60%.';
+          else if(d.includes('propor') && d.includes('invers')) r='Proporção inversa: quando uma grandeza aumenta, a outra diminui na mesma proporção. Na regra de três, inverta uma das razões antes de aplicar o produto cruzado.';
+          else if(d.includes('propor')) r='Proporção é a igualdade entre duas razões: a/b = c/d. Produto dos meios = produto dos extremos (a·d = b·c).';
+          else if(d.includes('diret')) r='Diretamente proporcionais: quando uma aumenta, a outra aumenta na mesma proporção. Use a/b = c/x e resolva pelo produto cruzado.';
+          else if(d.includes('invers')) r='Inversamente proporcionais: quando uma aumenta, a outra diminui na mesma proporção. O produto x·y é constante. Na regra de três, inverta uma razão.';
+          else if(d.includes('regra') && d.includes('tr')) r='Regra de três encontra um quarto valor conhecido três. Identifique direta ou inversa e aplique o produto cruzado.';
+          else if(d.includes('exemplo')) r='Exemplo direto: 2 kg → R$ 18; 5 kg → x. 2/18=5/x ⇒ x=45.';
+          else r='Posso explicar razão, proporção, direta, inversa e regra de três. Pergunte: "o que é proporção?" ou "como sei se é direta ou inversa?"';
+          $('#resposta').innerHTML = `<b>Explicação:</b> ${r}`; speak(r);
         };
-
-        $('#responder').onclick = ()=> explicar($('#duvida').value);
-        $('#repetir').onclick   = ()=> { if(lastSpeech) speak(lastSpeech); };
-        $('#parar').onclick     = ()=> speechSynthesis.cancel();
-        explainIfOn('Use o professor virtual para sanar dúvidas específicas sobre os tópicos.');
+        $('#responder').onclick = ()=>explicar($('#duvida').value);
+        $('#repetir').onclick=()=>{ if(lastSpeech) speak(lastSpeech); };
+        $('#parar').onclick=()=> speechSynthesis.cancel();
+        explainIfOn('Escreva sua dúvida de forma objetiva para uma orientação direta.');
       }
     };
 
-    /*********************** QUESTÕES – ENGINE ***********************/
+    /**************************************************************
+     * QUESTÕES – ENGINE
+     **************************************************************/
     function renderQuestao(q, single=false){
       const id = q.id || ('q'+Math.random().toString(36).slice(2)); q.id = id;
       let inputHtml = '';
       if(q.tipo==='numero') inputHtml = `<input type="number" step="any" data-id="${id}" placeholder="Sua resposta" />`;
       if(q.tipo==='texto') inputHtml = `<input type="text" data-id="${id}" placeholder="Sua resposta" />`;
-      if(q.tipo==='alternativas') inputHtml = q.alternativas.map((alt,i)=>`<label class="inline" style="gap:8px"><input type="radio" name="${id}" value="${i}"/> <span>${alt}</span></label>`).join('');
+      if(q.tipo==='alternativas') inputHtml = q.alternativas.map((alt,i)=>`<label class=\"inline\" style=\"gap:8px\"><input type=\"radio\" name=\"${id}\" value=\"${i}\"/> <span>${alt}</span></label>`).join('');
       return `
-        <div class="grid ${single?'' : 'two'}">
-          <div class="card">
-            <h3 style="margin-top:0">${single? 'Problema' : 'Questão'}</h3>
+        <div class=\"grid ${single?'' : 'two'}\">
+          <div class=\"card\">
+            <h3 style=\"margin-top:0\">${single? 'Problema' : 'Questão'}</h3>
             <p>${q.enunciado}</p>
-            ${q.img?`<img src="${q.img}" alt="" style="max-width:100%;border-radius:12px;border:1px solid var(--border)"/>`:''}
-            <div style="margin-top:10px">${inputHtml}</div>
-            <div class="inline" style="margin-top:12px">
-              <button class="btn" data-corrigir="${id}">Corrigir</button>
-              ${single? '' : '<button class="btn secondary" data-pular="'+id+'">Pular</button>'}
-            </div>
-            <div id="fb-${id}" class="foot"></div>
+            ${q.img?`<img src=\"${q.img}\" alt=\"\" style=\"max-width:100%;border-radius:12px;border:1px solid var(--border)\"/>`:''}
+            <div style=\"margin-top:10px\">${inputHtml}</div>
+            <div class=\"inline\" style=\"margin-top:12px\"><button class=\"btn\" data-corrigir=\"${id}\">Corrigir</button>${single? '' : '<button class=\"btn secondary\" data-pular=\"'+id+'\">Pular</button>'}</div>
+            <div id=\"fb-${id}\" class=\"foot\"></div>
           </div>
-          <div class="card"><h3 style="margin-top:0">Resolução</h3><div id="res-${id}"></div></div>
+          <div class=\"card\"><h3 style=\"margin-top:0\">Resolução</h3><div id=\"res-${id}\"></div></div>
         </div>`
     }
 
-    function renderQuestoes(lista, view){
-      $('#content').innerHTML = `<div class="card"><h2>${view==='simulado'?('🏆 Simulado – '+lista.length+' questões'):'📝 Exercícios'}</h2><p class="muted">Responda e clique em Corrigir. Veja a solução ao lado.</p></div>` + lista.map(q=>renderQuestao(q)).join('');
-      attachCorrection('#content', lista);
-    }
+    function renderQuestoes(lista, view){ $('#content').innerHTML = `<div class=\"card\"><h2>${view==='simulado'?('🏆 Simulado – '+lista.length+' questões'):'📝 Exercícios'}</h2><p class=\"muted\">Responda, clique em Corrigir e veja a solução ao lado.</p></div>` + lista.map(q=>renderQuestao(q)).join(''); attachCorrection('#content', lista); }
 
-    /* ✅ Mostra SEMPRE a resolução.
-       - Se acertar: passo a passo (q.solução).
-       - Se errar: passo a passo + GABARITO correto.
-       - Se o Professor estiver ON: narra um conselho rápido após correção.
-    */
+    // Correção + gabarito quando necessário
     function attachCorrection(rootSel, lista){
       const root = $(rootSel);
       lista.forEach(q=>{
@@ -530,162 +464,189 @@
           } else if(q.tipo==='texto'){
             const el = root.querySelector(`input[data-id="${q.id}"]`);
             if(!el){ alert('Digite sua resposta.'); return; }
-            valor = el.value.trim();
-            ok = q.correcao? q.correcao(valor) : (valor===String(q.resp));
+            valor = el.value.trim(); ok = q.correcao? q.correcao(valor) : (valor===String(q.resp));
           } else if(q.tipo==='alternativas'){
-            const sel = root.querySelector(`input[name="${q.id}"]:checked`);
-            if(!sel){ alert('Escolha uma alternativa.'); return; }
+            const sel = root.querySelector(`input[name="${q.id}"]:checked`); if(!sel){ alert('Escolha uma alternativa.'); return; }
             valor = parseInt(sel.value); ok = valor===q.resp;
           }
-
           updateKpi(ok);
-          if(ok){
-            fb = `<span class="good">✔ Acertou!</span>`;
-            root.querySelector('#res-'+q.id).innerHTML = stepList(q.solução || ['Correto!']);
-            if(store.prof) speak('Muito bem! A lógica está correta. Avance para a próxima.');
-          } else {
-            fb = `<span class="bad">✘ Resposta incorreta.</span>`;
-            const solucao = q.solução ? stepList(q.solução) : '';
-            const gabarito = q.gabarito ? `<div class="step"><b>Gabarito correto:</b> ${q.gabarito}</div>` : '';
-            root.querySelector('#res-'+q.id).innerHTML = solucao + gabarito;
-            if(store.prof) speak('Vamos revisar: observe a montagem da proporção e aplique o produto cruzado conforme a solução exibida.');
-          }
+          if(ok){ fb = `<span class="good">✔ Acertou!</span>`; root.querySelector('#res-'+q.id).innerHTML = stepList(q.solução || ['Correto!']); if(store.prof) speak('Muito bem! Continue.'); }
+          else { fb = `<span class="bad">✘ Resposta incorreta.</span>`; const solucao = q.solução ? stepList(q.solução) : ''; const gabarito = q.gabarito ? `<div class="step"><b>Gabarito correto:</b> ${q.gabarito}</div>` : ''; root.querySelector('#res-'+q.id).innerHTML = solucao + gabarito; if(store.prof) speak('Revise a montagem da proporção na solução mostrada.'); }
           root.querySelector('#fb-'+q.id).innerHTML = fb;
         }
-        const pular = root.querySelector(`[data-pular="${q.id}"]`); if(pular) pular.onclick = ()=>{ updateKpi(false); root.querySelector('#fb-'+q.id).innerHTML = '<span class="muted">Questão pulada.</span>'; if(store.prof) speak('Tudo bem pular. Retorne depois e foque na interpretação do enunciado.'); };
+        const pular = root.querySelector(`[data-pular="${q.id}"]`); if(pular) pular.onclick = ()=>{ updateKpi(false); root.querySelector('#fb-'+q.id).innerHTML = '<span class="muted">Questão pulada.</span>'; if(store.prof) speak('Tudo bem pular. Retorne depois.'); };
       });
     }
 
-    /*********************** MATEMÁTICA AUXILIAR ***********************/
+    /**************************************************************
+     * AUXÍLIOS MATEMÁTICOS
+     **************************************************************/
     function mdc(a,b){a=Math.abs(a);b=Math.abs(b);while(b){[a,b]=[b,a%b]}return a||1}
     function simplify(a,b){const d=mdc(a,b);return [a/d,b/d]}
 
-    /*********************** GERADOR DE PROBLEMAS ***********************/
+    /**************************************************************
+     * QUESTÕES FIXAS
+     **************************************************************/
+    function buildQuestoesFixas(){
+      const Q=[];
+      Q.push({ enunciado:"(Razão) Escreva e simplifique a razão 14/6.", tipo:'texto', gabarito:'7/3', correcao:v=>{const s=v.replace(/\s/g,'');return s==='7/3'||s==='7:3';}, solução:[ 'Razão 14/6.','Dividindo por 2 ⇒ 7/3.' ] });
+      Q.push({ enunciado:"(Proporção) Se 3/5 = x/20, determine x.", tipo:'numero', resp:12, gabarito:'12', correcao:v=>Math.abs(v-12)<1e-9, solução:[ '3/5 = x/20', '5·x=3·20', 'x=12' ] });
+      Q.push({ enunciado:"(Direta) 2 kg custam R$ 18. Quanto custam 5 kg?", tipo:'numero', resp:45, gabarito:'45', correcao:v=>Math.abs(v-45)<1e-9, solução:[ 'Preço ∝ quantidade (direta).', '2/18 = 5/x ⇒ x = 18·5/2', 'x=45' ] });
+      Q.push({ enunciado:"(Inversa) 3 h a 60 km/h; quanto tempo a 90 km/h?", tipo:'numero', resp:2, gabarito:'2', correcao:v=>Math.abs(v-2)<1e-9, solução:[ 'Tempo ∝ 1/velocidade (inversa).', '60·3 = 90·x', 'x=2 h' ] });
+      Q.push({ enunciado:"(Propriedade) Se a/b = c/d, então (a+c)/(b+d) = ?", tipo:'alternativas', alternativas:[ 'k (quando a/b=c/d)', 'Sempre', 'Nunca' ], resp:0, gabarito:'k (quando a/b=c/d)', solução:[ 'Se a/b=c/d=k, então a=kb e c=kd.', '(a+c)/(b+d)=(kb+kd)/(b+d)=k.' ] });
+      // Adicionais para robustez (total > 15)
+      Q.push({ enunciado:"(Razão) Em 50 jogos, 30 vitórias e 20 derrotas. Escreva v/d simplificado.", tipo:'texto', gabarito:'3/2', correcao:v=>{const s=v.replace(/\s/g,'');return s==='3/2'||s==='3:2';}, solução:[ 'Razão=30/20', 'Dividir por 10 ⇒ 3/2' ] });
+      Q.push({ enunciado:"(Proporção) 4/7 = x/21. Encontre x.", tipo:'numero', resp:12, gabarito:'12', correcao:v=>Math.abs(v-12)<1e-9, solução:[ '7·x=4·21', 'x=84/7', 'x=12' ] });
+      Q.push({ enunciado:"(Direta) 6 lápis custam R$ 15. Quanto custam 10 lápis?", tipo:'numero', resp:25, gabarito:'25', correcao:v=>Math.abs(v-25)<1e-9, solução:[ 'Preço ∝ quantidade.', '6/15 = 10/x ⇒ x= 15·10/6', 'x=25' ] });
+      Q.push({ enunciado:"(Inversa) 5 máquinas fazem o serviço em 12 h. 8 máquinas farão em quantas horas?", tipo:'numero', resp:7.5, gabarito:'7,5', correcao:v=>Math.abs(v-7.5)<1e-6, solução:[ 'Inversa: mais máquinas ⇒ menos horas.', '5/8 = x/12 ⇒ x=12·5/8', 'x=7,5 h' ] });
+      Q.push({ enunciado:"(Proporção) Complete: a/b = c/d ⇒ a·d = ?", tipo:'alternativas', alternativas:[ 'b·c', 'a·c', 'b/d' ], resp:0, gabarito:'b·c', solução:[ 'Propriedade fundamental: a·d = b·c.' ] });
+      // Mais
+      Q.push({ enunciado:"(Razão) Escreva a razão simplificada 42/56.", tipo:'texto', gabarito:'3/4', correcao:v=>{const s=v.replace(/\s/g,'');return s==='3/4'||s==='3:4';}, solução:[ 'mdc(42,56)=14', '42/56 → 3/4' ] });
+      Q.push({ enunciado:"(Direta) Se 3 m custam R$ 24, quanto custam 7 m?", tipo:'numero', resp:(24*7)/3, gabarito:String((24*7)/3), correcao:v=>Math.abs(v-56)<1e-9, solução:[ 'Direta: preço ∝ metros', '3/24 = 7/x ⇒ x=24·7/3', 'x=56' ] });
+      Q.push({ enunciado:"(Inversa) 4 pedreiros em 18 dias. 9 pedreiros fazem em quantos dias?", tipo:'numero', resp:8, gabarito:'8', correcao:v=>Math.abs(v-8)<1e-9, solução:[ 'Inversa: p1/p2 = x/t1', '4/9 = x/18 ⇒ x=18·4/9', 'x=8 dias' ] });
+      Q.push({ enunciado:"(Proporção) 5/8 = 15/x. Determine x.", tipo:'numero', resp:24, gabarito:'24', correcao:v=>Math.abs(v-24)<1e-9, solução:[ '8·15=5·x', 'x=120/5', 'x=24' ] });
+      Q.push({ enunciado:"(Razão) Simplifique 100/125.", tipo:'texto', gabarito:'4/5', correcao:v=>{const s=v.replace(/\s/g,'');return s==='4/5'||s==='4:5';}, solução:[ 'Divida por 25', '100/125 → 4/5' ] });
+      return Q;
+    }
+
+    /**************************************************************
+     * GERADOR DE PROBLEMAS
+     **************************************************************/
     function gerarProblema(tema, tipo){
       const pick = (arr)=>arr[randInt(0,arr.length-1)];
-      // Se tipo não vier, escolhe aleatório coerente
-      const tipos = ['razao','proporcao','direta','inversa','regra3'];
-      tipo = tipo || tipos[randInt(0,tipos.length-1)];
+      const tipos = ['razao','proporcao','direta','inversa','regra3']; tipo = tipo || tipos[randInt(0,tipos.length-1)];
 
-      // Casos por tema
       if(tema==='esportes'){
         const jogos = randInt(8,18), v = randInt(0,jogos), d = jogos-v;
         if(tipo==='razao'){
-          return {
-            enunciado:`Em ${jogos} jogos, um time venceu ${v} e perdeu ${d}. Escreva e simplifique a razão vitórias/derrotas.`,
-            tipo:'texto', gabarito:`${simplify(v,d).join('/')}`,
-            correcao:(txt)=>{ const s = txt.replace(/\s/g,''); const [p,q]=simplify(v,d); return s===`${p}/${q}`||s===`${p}:${q}`; },
-            solução:[`Razão v/d = ${v}/${d}.`,`Simplificando por mdc(${v},${d}) = ${mdc(v,d)} ⇒ ${simplify(v,d).join('/')} .`]
-          }
+          const [p,q]=simplify(v,Math.max(1,d));
+          return { enunciado:`Em ${jogos} jogos, um time venceu ${v} e perdeu ${d}. Escreva e simplifique a razão vitórias/derrotas.`, tipo:'texto', gabarito:`${p}/${q}`, correcao:(txt)=>{ const s = txt.replace(/\s/g,''); return s===`${p}/${q}`||s===`${p}:${q}`; }, solução:[`Razão v/d = ${v}/${d}.`,`Simplificando ⇒ ${p}/${q}.`] }
         }
         if(tipo==='proporcao' || tipo==='direta' || tipo==='regra3'){
-          const gols = randInt(5,25); const minutos = randInt(200,600); const alvo = randInt(300,900); const x = (gols*alvo)/minutos;
-          return {
-            enunciado:`Um jogador marcou ${gols} gols em ${minutos} minutos. Mantendo o ritmo, quantos gols faria em ${alvo} minutos?`,
-            tipo:'numero', resp:x,
-            correcao:(v)=>Math.abs(v-x)<1e-9,
-            solução:[`Diretamente proporcional (gols ∝ tempo).`,`x/${gols} = ${alvo}/${minutos} ⇒ x = ${gols}·${alvo}/${minutos} = ${fmt(x)}.`]
-          }
+          const gols = randInt(5,25); const minutos = randInt(200,600); const alvo = randInt(300,900); const x = gols*alvo/minutos;
+          return { enunciado:`Um jogador marcou ${gols} gols em ${minutos} min. Mantendo o ritmo, quantos gols em ${alvo} min?`, tipo:'numero', resp:x, correcao:(v)=>Math.abs(v-x)<1e-9, solução:[`Direta: gols ∝ tempo.`,`x/${gols} = ${alvo}/${minutos} ⇒ x = ${gols}·${alvo}/${minutos} = ${fmt(x)}.`] }
         }
         if(tipo==='inversa'){
-          const dist=randInt(5,20)*10, v1=randInt(40,90), v2=randInt(60,120); const t2=dist/v2;
-          return { enunciado:`Para percorrer ${dist} km, a ${v2} km/h, quantas horas são necessárias?`, tipo:'numero', resp:t2, correcao:(v)=>Math.abs(v-t2)<1e-6,
-            solução:[`Tempo e velocidade são inversamente proporcionais (d fixa).`,`t = d/v ⇒ ${dist}/${v2} = ${fmt(t2)} h.`] }
+          const dist=randInt(5,20)*10, v2=randInt(60,120); const t2=dist/v2;
+          return { enunciado:`Para percorrer ${dist} km a ${v2} km/h, quanto tempo (h)?`, tipo:'numero', resp:t2, correcao:(v)=>Math.abs(v-t2)<1e-6, solução:[`Tempo ∝ 1/velocidade (d fixa).`,`t = d/v ⇒ ${dist}/${v2} = ${fmt(t2)} h.`] }
         }
       }
 
       if(tema==='obras'){
         const trab = randInt(3,12), dias = randInt(20,60), t2 = randInt(trab+1,trab+10);
         if(tipo==='inversa' || tipo==='regra3'){
-          const x = dias*trab/t2; // inversa
-          return { enunciado:`${trab} operários concluem uma obra em ${dias} dias. Em quantos dias ${t2} operários farão a mesma obra (produtividade constante)?`, tipo:'numero', resp:x, correcao:(v)=>Math.abs(v-x)<1e-9,
-            solução:[`Grandezas inversamente proporcionais (mais operários ⇒ menos dias).`,`${trab}/${t2} = x/${dias} ⇒ x = ${dias}·${trab}/${t2} = ${fmt(x)} dias.`] }
+          const x = dias*trab/t2;
+          return { enunciado:`${trab} operários concluem a obra em ${dias} dias. Em quantos dias ${t2} operários farão a mesma obra?`, tipo:'numero', resp:x, correcao:(v)=>Math.abs(v-x)<1e-9, solução:[`Inversa: mais operários ⇒ menos dias.`,`${trab}/${t2} = x/${dias} ⇒ x = ${dias}·${trab}/${t2} = ${fmt(x)} dias.`] }
         }
         if(tipo==='proporcao' || tipo==='direta'){
           const orc = randInt(10,30)*1000; const escopo = randInt(2,6)*100; const novo = randInt(6,12)*100; const x = orc*novo/escopo;
-          return { enunciado:`Uma obra orçada em R$ ${orc} contempla ${escopo} m². Mantendo o custo por m², quanto custará ${novo} m²?`, tipo:'numero', resp:x, correcao:(v)=>Math.abs(v-x)<1e-9,
-            solução:[`Custo ∝ área (direta).`,`x/${orc} = ${novo}/${escopo} ⇒ x = ${orc}·${novo}/${escopo} = R$ ${fmt(x)}.`] }
+          return { enunciado:`Uma obra de R$ ${orc} contempla ${escopo} m². Mantendo o custo por m², quanto custará ${novo} m²?`, tipo:'numero', resp:x, correcao:(v)=>Math.abs(v-x)<1e-9, solução:[`Custo ∝ área (direta).`,`x/${orc} = ${novo}/${escopo} ⇒ x = ${orc}·${novo}/${escopo} = R$ ${fmt(x)}.`] }
         }
         if(tipo==='razao'){
           const horas=randInt(60,160), pausas=randInt(5,20); const [p,q]=simplify(horas,pausas);
-          return { enunciado:`Uma equipe registrou ${horas} h de trabalho e ${pausas} pausas. Escreva a razão horas/pausas e simplifique.`, tipo:'texto', gabarito:`${p}/${q}`, correcao:(txt)=>{const s=txt.replace(/\s/g,'');return s===`${p}/${q}`||s===`${p}:${q}`;},
-            solução:[`Razão = ${horas}/${pausas}.`,`mdc = ${mdc(horas,pausas)} ⇒ ${p}/${q}.`] }
+          return { enunciado:`Uma equipe registrou ${horas} h e ${pausas} pausas. Escreva a razão horas/pausas e simplifique.`, tipo:'texto', gabarito:`${p}/${q}`, correcao:(txt)=>{const s=txt.replace(/\s/g,'');return s===`${p}/${q}`||s===`${p}:${q}`;}, solução:[`Razão = ${horas}/${pausas}.`,`mdc = ${mdc(horas,pausas)} ⇒ ${p}/${q}.`] }
         }
       }
 
       if(tema==='cozinha'){
         if(tipo==='razao'){
           const por=randInt(2,8), ovos=randInt(2,12); const [p,q]=simplify(ovos,por);
-          return { enunciado:`Uma receita usa ${ovos} ovos para ${por} porções. Escreva e simplifique a razão ovos/porções.`, tipo:'texto', gabarito:`${p}/${q}`, correcao:(txt)=>{const s=txt.replace(/\s/g,'');return s===`${p}/${q}`||s===`${p}:${q}`;},
-            solução:[`Razão ovos/porções = ${ovos}/${por}.`,`mdc = ${mdc(ovos,por)} ⇒ ${p}/${q}.`] }
+          return { enunciado:`Uma receita usa ${ovos} ovos para ${por} porções. Escreva e simplifique ovos/porções.`, tipo:'texto', gabarito:`${p}/${q}`, correcao:(txt)=>{const s=txt.replace(/\s/g,'');return s===`${p}/${q}`||s===`${p}:${q}`;}, solução:[`Razão ovos/porções = ${ovos}/${por}.`,`mdc = ${mdc(ovos,por)} ⇒ ${p}/${q}.`] }
         }
         if(tipo==='proporcao' || tipo==='direta' || tipo==='regra3'){
           const por = randInt(4,10), farinha = randInt(200,500); const alvo = randInt(8,20); const x = farinha*alvo/por;
-          return { enunciado:`Uma receita para ${por} porções usa ${farinha} g de farinha. Para ${alvo} porções, quantos gramas são necessários?`, tipo:'numero', resp:x, correcao:(v)=>Math.abs(v-x)<1e-9,
-            solução:[`Grandezas diretamente proporcionais (ingredientes ∝ porções).`,`x/${farinha} = ${alvo}/${por} ⇒ x = ${farinha}·${alvo}/${por} = ${fmt(x)} g.`] }
+          return { enunciado:`Receita para ${por} porções usa ${farinha} g de farinha. Para ${alvo} porções, quantos gramas?`, tipo:'numero', resp:x, correcao:(v)=>Math.abs(v-x)<1e-9, solução:[`Direta: ingrediente ∝ porções.`,`x/${farinha} = ${alvo}/${por} ⇒ x = ${farinha}·${alvo}/${por} = ${fmt(x)} g.`] }
         }
         if(tipo==='inversa'){
           const fornos=randInt(1,5), tempo=randInt(30,120), mais=randInt(2,8); const x=tempo*fornos/mais;
-          return { enunciado:`Um lote assa em ${tempo} min usando ${fornos} forno(s). Usando ${mais} fornos idênticos, qual o tempo (min)?`, tipo:'numero', resp:x, correcao:(v)=>Math.abs(v-x)<1e-9,
-            solução:[`Produção ∝ n.º de fornos (tempo ∝ 1/fornos).`,`${fornos}/${mais} = x/${tempo} ⇒ x = ${tempo}·${fornos}/${mais} = ${fmt(x)} min.`] }
+          return { enunciado:`Um lote assa em ${tempo} min com ${fornos} forno(s). Com ${mais} fornos, qual o tempo?`, tipo:'numero', resp:x, correcao:(v)=>Math.abs(v-x)<1e-9, solução:[`Produção ∝ n.º de fornos (tempo ∝ 1/fornos).`,`${fornos}/${mais} = x/${tempo} ⇒ x = ${tempo}·${fornos}/${mais} = ${fmt(x)} min.`] }
         }
       }
 
       if(tema==='viagem'){
         if(tipo==='inversa' || tipo==='regra3'){
-          const dist=randInt(120,480), v1=randInt(40,90), v2=randInt(60,120);
-          const t2=dist/v2;
-          return { enunciado:`Para percorrer ${dist} km a ${v2} km/h, quanto tempo (h) é necessário?`, tipo:'numero', resp:t2, correcao:(v)=>Math.abs(v-t2)<1e-6,
-            solução:[`Tempo e velocidade são inversamente proporcionais para a mesma distância.`,`t = d/v ⇒ t = ${dist}/${v2} = ${fmt(t2)} h.`] }
+          const dist=randInt(120,480), v2=randInt(60,120); const t2=dist/v2;
+          return { enunciado:`Para percorrer ${dist} km a ${v2} km/h, quanto tempo (h)?`, tipo:'numero', resp:t2, correcao:(v)=>Math.abs(v-t2)<1e-6, solução:[`Tempo e velocidade são inversamente proporcionais.`,`t = d/v ⇒ t=${dist}/${v2} = ${fmt(t2)} h.`] }
         }
         if(tipo==='direta' || tipo==='proporcao'){
           const cons=randInt(8,14); const dist=randInt(200,800); const x=dist/cons;
-          return { enunciado:`Um carro faz ${cons} km/l. Para percorrer ${dist} km, quantos litros são necessários?`, tipo:'numero', resp:x, correcao:(v)=>Math.abs(v-x)<1e-6,
-            solução:[`Consumo direto: litros ∝ distância; x/${dist} = 1/${cons} ⇒ x = ${dist}/${cons} = ${fmt(x)} L.`] }
+          return { enunciado:`Um carro faz ${cons} km/l. Para ${dist} km, quantos litros?`, tipo:'numero', resp:x, correcao:(v)=>Math.abs(v-x)<1e-6, solução:[`Litros ∝ distância: x/${dist}=1/${cons}.`,`x=${dist}/${cons} = ${fmt(x)} L.`] }
         }
         if(tipo==='razao'){
           const km=randInt(100,600), horas=randInt(2,9); const [p,q]=simplify(km,horas);
-          return { enunciado:`Uma viagem de ${km} km durou ${horas} h. Escreva e simplifique a razão km/h.`, tipo:'texto', gabarito:`${p}/${q}`, correcao:(txt)=>{const s=txt.replace(/\s/g,'');return s===`${p}/${q}`||s===`${p}:${q}`;},
-            solução:[`Razão = ${km}/${horas}.`,`mdc = ${mdc(km,horas)} ⇒ ${p}/${q}.`] }
+          return { enunciado:`Uma viagem de ${km} km durou ${horas} h. Escreva e simplifique km/h.`, tipo:'texto', gabarito:`${p}/${q}`, correcao:(txt)=>{const s=txt.replace(/\s/g,'');return s===`${p}/${q}`||s===`${p}:${q}`;}, solução:[`Razão = ${km}/${horas}.`,`mdc = ${mdc(km,horas)} ⇒ ${p}/${q}.`] }
         }
       }
 
       if(tema==='mercado'){
         if(tipo==='direta' || tipo==='proporcao' || tipo==='regra3'){
           const q=randInt(2,7), preco=randInt(8,25); const alvo=randInt(5,12); const x=preco*alvo/q;
-          return { enunciado:`${q} kg de fruta custam R$ ${preco}. Mantendo o preço por kg, quanto custam ${alvo} kg?`, tipo:'numero', resp:x, correcao:(v)=>Math.abs(v-x)<1e-9,
-            solução:[`Preço é diretamente proporcional à quantidade.`,`x/${preco} = ${alvo}/${q} ⇒ x = ${preco}·${alvo}/${q} = R$ ${fmt(x)}.`] }
+          return { enunciado:`${q} kg custam R$ ${preco}. Quanto custam ${alvo} kg?`, tipo:'numero', resp:x, correcao:(v)=>Math.abs(v-x)<1e-9, solução:[`Preço ∝ quantidade.`,`x/${preco} = ${alvo}/${q} ⇒ x = ${preco}·${alvo}/${q} = R$ ${fmt(x)}.`] }
         }
         if(tipo==='inversa'){
           const p1=randInt(3,8), t1=randInt(5,12), p2=randInt(9,18); const x=t1*p1/p2;
-          return { enunciado:`Uma equipe com ${p1} atendentes conclui os pedidos em ${t1} h. Se houver ${p2} atendentes, em quantas horas concluem (mesmo ritmo)?`, tipo:'numero', resp:x, correcao:(v)=>Math.abs(v-x)<1e-9,
-            solução:[`Atendentes ↑ ⇒ tempo ↓ (inversa).`,`${p1}/${p2} = x/${t1} ⇒ x = ${t1}·${p1}/${p2} = ${fmt(x)} h.`] }
+          return { enunciado:`${p1} atendentes concluem os pedidos em ${t1} h. Com ${p2} atendentes, em quantas horas?`, tipo:'numero', resp:x, correcao:(v)=>Math.abs(v-x)<1e-9, solução:[`Atendentes ↑ ⇒ tempo ↓ (inversa).`,`${p1}/${p2} = x/${t1} ⇒ x = ${t1}·${p1}/${p2} = ${fmt(x)} h.`] }
         }
         if(tipo==='razao'){
           const clientes=randInt(80,240), dias=randInt(2,8); const [p,q]=simplify(clientes,dias);
-          return { enunciado:`Uma banca atendeu ${clientes} clientes em ${dias} dias. Escreva e simplifique a razão clientes/dia.`, tipo:'texto', gabarito:`${p}/${q}`, correcao:(txt)=>{const s=txt.replace(/\s/g,'');return s===`${p}/${q}`||s===`${p}:${q}`;},
-            solução:[`Razão = ${clientes}/${dias}.`,`mdc = ${mdc(clientes,dias)} ⇒ ${p}/${q}.`] }
+          return { enunciado:`Atendeu ${clientes} clientes em ${dias} dias. Escreva e simplifique clientes/dia.`, tipo:'texto', gabarito:`${p}/${q}`, correcao:(txt)=>{const s=txt.replace(/\s/g,'');return s===`${p}/${q}`||s===`${p}:${q}`;}, solução:[`Razão = ${clientes}/${dias}.`,`mdc = ${mdc(clientes,dias)} ⇒ ${p}/${q}.`] }
         }
       }
 
-      // fallback
       return {enunciado:'Problema em construção',tipo:'texto',resp:'',correcao:()=>true,solução:['—']};
     }
 
-    /*********************** INIT ***********************/
+    /**************************************************************
+     * FUNÇÕES – FRAÇÃO E REGRA DE TRÊS
+     **************************************************************/
+    function renderFancyFraction(a,b){
+      const s = `<div style="display:inline-block;text-align:center;line-height:1.1">
+        <div style="border-bottom:2px solid #111827;padding:2px 6px">${a}</div>
+        <div style="padding:2px 6px">${b}</div>
+      </div>`; return s;
+    }
+
+    function resolverFracao(){
+      const input=$('#fractionInput').value.trim(); const box=$('#resultado'); const fancy=$('#resultadoFancy');
+      if(!input.includes('/')){box.textContent='Digite no formato a/b.'; fancy.style.display='none'; fancy.innerHTML=''; return;}
+      let [a,b]=input.split('/').map(n=>parseInt(n,10)); if(!(isFinite(a)&&isFinite(b))||b===0){ box.textContent='Valores inválidos.'; fancy.style.display='none'; fancy.innerHTML=''; return; }
+      const d = mdc(a,b); const [sa,sb] = [a/d,b/d]; const dec = a/b; const perc=(dec*100);
+      box.innerHTML = `<b>Fração simplificada:</b> ${sa}/${sb}<br><b>Decimal:</b> ${dec.toFixed(4)}<br><b>Percentual:</b> ${perc.toFixed(2)}%`;
+      fancy.style.display='block'; fancy.innerHTML = `<b>Visual:</b> ${renderFancyFraction(sa,sb)}`;
+    }
+
+    function resolverRT(){
+      const tipo=$('#tipoRT').value; const a=parseFloat($('#a1').value), b=parseFloat($('#b1').value), c=parseFloat($('#a2').value);
+      if([a,b,c].some(v=>!isFinite(v))){ alert('Preencha a, b e c com números.'); return; }
+      let steps=[], x;
+      if(tipo==='direta'){
+        steps.push(`Grandezas diretamente proporcionais ⇒ montamos <span class="code">a/b = c/x</span>.`);
+        steps.push(`Substituindo: <span class="code">${fmt(a)}/${fmt(b)} = ${fmt(c)}/x</span>.`);
+        steps.push(`Propriedade fundamental: <b>produto dos meios = produto dos extremos</b> ⇒ <span class="code">${fmt(b)}·${fmt(c)} = ${fmt(a)}·x</span>.`);
+        x = (b*c)/a;
+      } else {
+        steps.push(`Grandezas inversamente proporcionais ⇒ invertemos uma razão: <span class="code">a/b = x/c</span>.`);
+        steps.push(`Substituindo: <span class="code">${fmt(a)}/${fmt(b)} = x/${fmt(c)}</span>.`);
+        steps.push(`P.F.: <span class="code">${fmt(a)}·${fmt(c)} = ${fmt(b)}·x</span>.`);
+        x = (a*c)/b;
+      }
+      steps.push(`<b>Solução:</b> x = <span class="code">${fmt(x)}</span>.`);
+      $('#solucao').innerHTML = stepList(steps);
+      explainIfOn('Note como a montagem muda entre direta e inversa.');
+    }
+
+    /**************************************************************
+     * INICIALIZAÇÃO
+     **************************************************************/
     $$('.menu button').forEach(b=> b.onclick = ()=> setActive(b.dataset.view));
     setActive('dashboard');
 
-    // Toggle Professor
-    $('#profToggle').onclick = ()=>{ store.prof = !store.prof; updateProfToggleUI(); if(store.prof) speak('Professor ativado. Explicarei automaticamente os pontos principais.'); else speechSynthesis.cancel(); };
-    updateProfToggleUI();
-
-    // Test voice
+    $('#toggleProf').onclick = ()=>{ store.prof = !store.prof; updateProfUI(); if(store.prof) speak('Professor ativado.'); else speechSynthesis.cancel(); };
+    updateProfUI();
     $('#btnSpeakTest').onclick = ()=> speak('Teste de voz do Professor Virtual.');
 
-    // iOS/Chrome voices lazy-load
-    window.speechSynthesis?.getVoices();
-    window.speechSynthesis.onvoiceschanged = ()=>{};
+    // Carregar vozes (para alguns navegadores é assíncrono)
+    try{ window.speechSynthesis.getVoices(); window.speechSynthesis.onvoiceschanged = ()=>{}; }catch(e){}
   </script>
 </body>
 </html>
