@@ -16,6 +16,7 @@
     - Gerador de problemas contextualizados (vários temas)
     - Painel de desempenho com KPIs e persistência local
     - Estrutura modular e comentada
+    - **NOVO**: Botão "← Voltar" em TODAS as páginas e navegação por clique
     ==============================================================
   -->
   <style>
@@ -88,6 +89,7 @@
     .btn:hover{filter:brightness(1.06)}
     .btn.secondary{background:var(--input);color:var(--ink);border:1px solid var(--border);font-weight:700}
     .btn.ghost{background:transparent;color:var(--ink);border:1px dashed var(--border)}
+    .btn.back{background:transparent;color:var(--ink);border:1px solid var(--border);display:inline-flex;align-items:center;gap:8px}
 
     input[type="number"], input[type="text"], textarea, select{width:100%;padding:10px;border-radius:10px;background:var(--input);border:1px solid var(--border);color:var(--ink)}
     .inline{display:flex;gap:10px;align-items:center}
@@ -100,6 +102,10 @@
     .code{font-family:ui-monospace,Menlo,Consolas,monospace;background:var(--input);border:1px solid var(--border);border-radius:10px;padding:6px 8px}
     .foot{margin-top:12px;color:var(--muted);font-size:12px}
     .hr{height:1px;background:var(--border);margin:10px 0}
+
+    /* Cabeçalho interno de páginas (com Voltar) */
+    .viewhead{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+    .viewhead h2{margin:0}
   </style>
 </head>
 <body>
@@ -179,7 +185,18 @@
     function resetKpi(){ localStorage.removeItem('kpi'); }
 
     function stepList(steps){ return steps.map(s=>`<div class="step">${s}</div>`).join(''); }
-    function setActive(view){ $$('.menu button').forEach(b=>b.classList.toggle('active', b.dataset.view===view)); router[view](); }
+    function setActive(view){
+      $$('.menu button').forEach(b=>b.classList.toggle('active', b.dataset.view===view));
+      router[view]();
+    }
+
+    /* Cabeçalho interno com botão Voltar */
+    function viewHead(title){
+      return `<div class="viewhead">
+        <button class="btn back" onclick="setActive('dashboard')">← Voltar</button>
+        <h2>${title}</h2>
+      </div>`;
+    }
 
     /**************************************************************
      * VOZ / PROFESSOR
@@ -221,25 +238,25 @@
     const router = {
       dashboard(){
         $('#content').innerHTML = `
-          <div class=\"grid two\">
-            <div class=\"card\">
-              <span class=\"badge\">Comece por aqui</span>
+          <div class="grid two">
+            <div class="card">
+              <span class="badge">Comece por aqui</span>
               <h2>Mapa de estudos</h2>
-              <p class=\"muted\">Revisão de tópicos, exercícios guiados, simulados e gerador de problemas. Seu progresso fica salvo no dispositivo.</p>
-              <div class=\"grid three\" style=\"margin-top:8px\">
-                <div class=\"kpi\"><div><div class=\"muted\">Questões feitas</div><div id=\"kpi-feitos\" style=\"font-weight:800;font-size:22px\">0</div></div><span class=\"pill\">hoje</span></div>
-                <div class=\"kpi\"><div><div class=\"muted\">Acertos</div><div id=\"kpi-acertos\" class=\"good\" style=\"font-weight:800;font-size:22px\">0</div></div><span class=\"pill\">taxa</span></div>
-                <div class=\"kpi\"><div><div class=\"muted\">Erros</div><div id=\"kpi-erros\" class=\"bad\" style=\"font-weight:800;font-size:22px\">0</div></div><span class=\"pill\">revisão</span></div>
+              <p class="muted">Revisão de tópicos, exercícios guiados, simulados e gerador de problemas. Seu progresso fica salvo no dispositivo.</p>
+              <div class="grid three" style="margin-top:8px">
+                <div class="kpi"><div><div class="muted">Questões feitas</div><div id="kpi-feitos" style="font-weight:800;font-size:22px">0</div></div><span class="pill">hoje</span></div>
+                <div class="kpi"><div><div class="muted">Acertos</div><div id="kpi-acertos" class="good" style="font-weight:800;font-size:22px">0</div></div><span class="pill">taxa</span></div>
+                <div class="kpi"><div><div class="muted">Erros</div><div id="kpi-erros" class="bad" style="font-weight:800;font-size:22px">0</div></div><span class="pill">revisão</span></div>
               </div>
-              <div class=\"foot\">Dica: alterne entre <b>Gerador</b> e <b>Simulado</b> para treinar velocidade e interpretação.</div>
+              <div class="foot">Dica: alterne entre <b>Gerador</b> e <b>Simulado</b> para treinar velocidade e interpretação.</div>
             </div>
-            <div class=\"card\">
+            <div class="card">
               <h3>Atalhos rápidos</h3>
-              <div class=\"grid two\">
-                <button class=\"btn\" onclick=\"setActive('teoria')\">📘 Teoria</button>
-                <button class=\"btn\" onclick=\"setActive('fracao')\">➗ Frações</button>
-                <button class=\"btn\" onclick=\"setActive('calculadora')\">🧮 Regra de Três</button>
-                <button class=\"btn\" onclick=\"setActive('simulado')\">🏆 Simulado</button>
+              <div class="grid two">
+                <button class="btn" onclick="setActive('teoria')">📘 Teoria</button>
+                <button class="btn" onclick="setActive('fracao')">➗ Frações</button>
+                <button class="btn" onclick="setActive('calculadora')">🧮 Regra de Três</button>
+                <button class="btn" onclick="setActive('simulado')">🏆 Simulado</button>
               </div>
             </div>
           </div>`;
@@ -249,10 +266,10 @@
 
       teoria(){
         $('#content').innerHTML = `
-          <div class=\"card\"><h2>📘 Teoria resumida</h2><p class=\"muted\">Conceitos essenciais de razão, proporção e regra de três.</p></div>
-          <div class=\"grid two\">
+          <div class="card">${viewHead('📘 Teoria resumida')}</div>
+          <div class="grid two">
             ${teoriaBlocos.map(b=>`
-              <div class=\"card\"><h3 style=\"margin:0 0 8px\">${b.titulo}</h3><p>${b.conteudo}</p><p class=\"step\"><b>Exemplo:</b> ${b.exemplo}</p></div>
+              <div class="card"><h3 style="margin:0 0 8px">${b.titulo}</h3><p>${b.conteudo}</p><p class="step"><b>Exemplo:</b> ${b.exemplo}</p></div>
             `).join('')}
           </div>`;
         explainIfOn('Na proporção, lembramos que produto dos meios é igual ao produto dos extremos.');
@@ -260,22 +277,22 @@
 
       fracao(){
         $('#content').innerHTML = `
-          <div class=\"card\">
-            <h2>➗ Calculadora de Frações</h2>
-            <p class=\"muted\">Digite a fração e veja a forma simplificada, decimal e percentual. A fração é exibida também de maneira \"empilhada\" (vertical).</p>
-            <div class=\"grid two\">
+          <div class="card">${viewHead('➗ Calculadora de Frações')}</div>
+          <div class="card">
+            <p class="muted">Digite a fração e veja a forma simplificada, decimal e percentual. A fração é exibida também de maneira "empilhada" (vertical).</p>
+            <div class="grid two">
               <div>
                 <label>Fração</label>
-                <input id=\"fractionInput\" type=\"text\" placeholder=\"Ex.: 18/24\" />
-                <div class=\"inline\"><button class=\"btn\" id=\"btnFrac\">Resolver</button><button class=\"btn secondary\" id=\"btnFracClear\">Limpar</button></div>
+                <input id="fractionInput" type="text" placeholder="Ex.: 18/24" />
+                <div class="inline"><button class="btn" id="btnFrac">Resolver</button><button class="btn secondary" id="btnFracClear">Limpar</button></div>
               </div>
               <div>
                 <h3>Resultado</h3>
-                <div id=\"resultado\" class=\"step\"></div>
-                <div id=\"resultadoFancy\" class=\"step\" style=\"display:none\"></div>
+                <div id="resultado" class="step"></div>
+                <div id="resultadoFancy" class="step" style="display:none"></div>
               </div>
             </div>
-            <div class=\"foot\">Dica: use números inteiros positivos. Em breve suportaremos sinais e mistas.</div>
+            <div class="foot">Dica: use números inteiros positivos. Em breve suportaremos sinais e mistas.</div>
           </div>`;
         $('#btnFrac').onclick = resolverFracao;
         $('#btnFracClear').onclick = ()=>{ $('#fractionInput').value=''; $('#resultado').innerHTML=''; $('#resultadoFancy').style.display='none'; $('#resultadoFancy').innerHTML=''; };
@@ -284,28 +301,28 @@
 
       calculadora(){
         $('#content').innerHTML = `
-          <div class=\"card\">
-            <h2>🧮 Regra de Três – Passo a passo</h2>
-            <p class=\"muted\">Informe três valores e deixe um em branco para achar o desconhecido. Escolha se é relação direta ou inversa.</p>
-            <div class=\"grid two\">
+          <div class="card">${viewHead('🧮 Regra de Três – Passo a passo')}</div>
+          <div class="card">
+            <p class="muted">Informe três valores e deixe um em branco para achar o desconhecido. Escolha se é relação direta ou inversa.</p>
+            <div class="grid two">
               <div>
                 <label>Tipo</label>
-                <select id=\"tipoRT\"><option value=\"direta\">Direta (D.P.)</option><option value=\"inversa\">Inversa (I.P.)</option></select>
-                <div class=\"grid two\" style=\"margin-top:10px\">
+                <select id="tipoRT"><option value="direta">Direta (D.P.)</option><option value="inversa">Inversa (I.P.)</option></select>
+                <div class="grid two" style="margin-top:10px">
                   <div>
                     <label>1ª grandeza</label>
-                    <div class=\"inline\"><input id=\"a1\" type=\"number\" placeholder=\"a\" /><input id=\"b1\" type=\"number\" placeholder=\"b\" /></div>
+                    <div class="inline"><input id="a1" type="number" placeholder="a" /><input id="b1" type="number" placeholder="b" /></div>
                   </div>
                   <div>
                     <label>2ª grandeza</label>
-                    <div class=\"inline\"><input id=\"a2\" type=\"number\" placeholder=\"c\" /><input id=\"b2\" type=\"number\" placeholder=\"x\" /></div>
+                    <div class="inline"><input id="a2" type="number" placeholder="c" /><input id="b2" type="number" placeholder="x" /></div>
                   </div>
                 </div>
-                <div class=\"inline\" style=\"margin-top:12px\"><button class=\"btn\" id=\"btnSolve\">Resolver</button><button class=\"btn secondary\" id=\"btnClear\">Limpar</button></div>
+                <div class="inline" style="margin-top:12px"><button class="btn" id="btnSolve">Resolver</button><button class="btn secondary" id="btnClear">Limpar</button></div>
               </div>
               <div>
                 <h3>Passo a passo</h3>
-                <div id=\"solucao\" class=\"grid\"></div>
+                <div id="solucao" class="grid"></div>
               </div>
             </div>
           </div>`;
@@ -316,34 +333,35 @@
 
       exercicios(){
         const questoes = buildQuestoesFixas();
+        $('#content').innerHTML = `<div class="card">${viewHead('📝 Exercícios Fixos')}</div>`;
         renderQuestoes(questoes, 'exercicios');
         explainIfOn('Ao corrigir, observe o passo a passo e o gabarito quando errar.');
       },
 
       gerador(){
         $('#content').innerHTML = `
-          <div class=\"card\">
-            <h2>🎲 Gerador de problemas contextualizados</h2>
-            <p class=\"muted\">Escolha o tema e o tipo de relação. A questão é criada automaticamente com correção e explicação.</p>
-            <div class=\"inline\">
-              <select id=\"temaGen\">
-                <option value=\"esportes\">Esportes</option>
-                <option value=\"obras\">Construção/Obras</option>
-                <option value=\"cozinha\">Receitas/Culinária</option>
-                <option value=\"viagem\">Viagem/Trânsito</option>
-                <option value=\"mercado\">Mercado/Consumo</option>
+          <div class="card">${viewHead('🎲 Gerador de problemas')}</div>
+          <div class="card">
+            <p class="muted">Escolha o tema e o tipo de relação. A questão é criada automaticamente com correção e explicação.</p>
+            <div class="inline">
+              <select id="temaGen">
+                <option value="esportes">Esportes</option>
+                <option value="obras">Construção/Obras</option>
+                <option value="cozinha">Receitas/Culinária</option>
+                <option value="viagem">Viagem/Trânsito</option>
+                <option value="mercado">Mercado/Consumo</option>
               </select>
-              <select id=\"tipoGen\">
-                <option value=\"razao\">Razão</option>
-                <option value=\"proporcao\">Proporção</option>
-                <option value=\"direta\">Direta</option>
-                <option value=\"inversa\">Inversa</option>
-                <option value=\"regra3\">Regra de Três</option>
+              <select id="tipoGen">
+                <option value="razao">Razão</option>
+                <option value="proporcao">Proporção</option>
+                <option value="direta">Direta</option>
+                <option value="inversa">Inversa</option>
+                <option value="regra3">Regra de Três</option>
               </select>
-              <button class=\"btn\" id=\"btnGen\">Gerar</button>
+              <button class="btn" id="btnGen">Gerar</button>
             </div>
           </div>
-          <div class=\"card\" id=\"boxProb\" style=\"display:none\"></div>`;
+          <div class="card" id="boxProb" style="display:none"></div>`;
         $('#btnGen').onclick = ()=>{
           const tema = $('#temaGen').value; const tipo=$('#tipoGen').value;
           const q = gerarProblema(tema, tipo); $('#boxProb').style.display='block'; $('#boxProb').innerHTML = renderQuestao(q, true); attachCorrection('#boxProb', [q]);
@@ -353,26 +371,26 @@
 
       simulado(){
         $('#content').innerHTML = `
-          <div class=\"card\">
-            <h2>🏆 Simulado personalizável</h2>
-            <p class=\"muted\">Selecione tópicos e a quantidade de questões (10 a 30). Os resultados contam nos seus KPIs.</p>
-            <div class=\"grid two\">
+          <div class="card">${viewHead('🏆 Simulado personalizável')}</div>
+          <div class="card">
+            <p class="muted">Selecione tópicos e a quantidade de questões (10 a 30). Os resultados contam nos seus KPIs.</p>
+            <div class="grid two">
               <div>
                 <h3>🧩 Tópicos</h3>
-                <label class=\"pill\"><input type=\"checkbox\" id=\"t-razao\" checked> Razão</label>
-                <label class=\"pill\"><input type=\"checkbox\" id=\"t-proporcao\" checked> Proporção</label>
-                <label class=\"pill\"><input type=\"checkbox\" id=\"t-direta\" checked> Direta</label>
-                <label class=\"pill\"><input type=\"checkbox\" id=\"t-inversa\" checked> Inversa</label>
-                <label class=\"pill\"><input type=\"checkbox\" id=\"t-regra3\" checked> Regra de Três</label>
+                <label class="pill"><input type="checkbox" id="t-razao" checked> Razão</label>
+                <label class="pill"><input type="checkbox" id="t-proporcao" checked> Proporção</label>
+                <label class="pill"><input type="checkbox" id="t-direta" checked> Direta</label>
+                <label class="pill"><input type="checkbox" id="t-inversa" checked> Inversa</label>
+                <label class="pill"><input type="checkbox" id="t-regra3" checked> Regra de Três</label>
               </div>
               <div>
                 <h3>🔢 Quantidade</h3>
-                <div class=\"inline\"><input id=\"qtd\" type=\"number\" min=\"10\" max=\"30\" value=\"30\"/><button class=\"btn\" id=\"btnGo\">Gerar simulado</button></div>
-                <div class=\"foot\">Dica: comece com 10, depois tente 30 para treinar resistência.</div>
+                <div class="inline"><input id="qtd" type="number" min="10" max="30" value="30"/><button class="btn" id="btnGo">Gerar simulado</button></div>
+                <div class="foot">Dica: comece com 10, depois tente 30 para treinar resistência.</div>
               </div>
             </div>
           </div>
-          <div id=\"simuBox\"></div>`;
+          <div id="simuBox"></div>`;
         $('#btnGo').onclick = ()=>{
           const temas=[]; if($('#t-razao').checked) temas.push('razao'); if($('#t-proporcao').checked) temas.push('proporcao'); if($('#t-direta').checked) temas.push('direta'); if($('#t-inversa').checked) temas.push('inversa'); if($('#t-regra3').checked) temas.push('regra3');
           let n = parseInt($('#qtd').value)||30; n=Math.max(10,Math.min(30,n)); if(!temas.length){ alert('Selecione pelo menos um tópico.'); return; }
@@ -384,27 +402,27 @@
       desempenho(){
         const k = store.kpi;
         $('#content').innerHTML = `
-          <div class=\"card\">
-            <h2>📊 Seu desempenho</h2>
-            <div class=\"grid three\" style=\"margin-top:8px\">
-              <div class=\"kpi\"><div><div class=\"muted\">Feitos</div><div style=\"font-weight:800;font-size:24px\">${k.feitos}</div></div></div>
-              <div class=\"kpi\"><div><div class=\"muted\">Acertos</div><div class=\"good\" style=\"font-weight:800;font-size:24px\">${k.acertos} (${pct(k.acertos,k.feitos)}%)</div></div></div>
-              <div class=\"kpi\"><div><div class=\"muted\">Erros</div><div class=\"bad\" style=\"font-weight:800;font-size:24px\">${k.erros}</div></div></div>
+          <div class="card">${viewHead('📊 Seu desempenho')}</div>
+          <div class="card">
+            <div class="grid three" style="margin-top:8px">
+              <div class="kpi"><div><div class="muted">Feitos</div><div style="font-weight:800;font-size:24px">${k.feitos}</div></div></div>
+              <div class="kpi"><div><div class="muted">Acertos</div><div class="good" style="font-weight:800;font-size:24px">${k.acertos} (${pct(k.acertos,k.feitos)}%)</div></div></div>
+              <div class="kpi"><div><div class="muted">Erros</div><div class="bad" style="font-weight:800;font-size:24px">${k.erros}</div></div></div>
             </div>
-            <div class=\"foot\">Os dados ficam armazenados apenas no seu navegador (localStorage). Você pode zerar abaixo.</div>
+            <div class="foot">Os dados ficam armazenados apenas no seu navegador (localStorage). Você pode zerar abaixo.</div>
           </div>
-          <div class=\"card\"><h3>Configurações</h3><button class=\"btn secondary\" id=\"reset\">Zerar histórico</button></div>`;
+          <div class="card"><h3>Configurações</h3><button class="btn secondary" id="reset">Zerar histórico</button></div>`;
         $('#reset').onclick = ()=>{ resetKpi(); setActive('dashboard'); };
       },
 
       professor(){
         $('#content').innerHTML = `
-          <div class=\"card\">
-            <h2>👨‍🏫 Professor Virtual</h2>
-            <p class=\"muted\">Pergunte sobre razão, proporção, direta, inversa ou regra de três. Eu respondo e leio em voz alta.</p>
-            <div class=\"inline\"><input id=\"duvida\" type=\"text\" placeholder=\"Escreva sua pergunta...\"/><button class=\"btn\" id=\"responder\">Responder</button></div>
-            <div class=\"inline\" style=\"margin-top:10px\"><button class=\"btn secondary\" id=\"repetir\">🔊 Repetir</button><button class=\"btn secondary\" id=\"parar\">⏹ Parar</button></div>
-            <div id=\"resposta\" class=\"step\" style=\"margin-top:12px\"></div>
+          <div class="card">${viewHead('👨‍🏫 Professor Virtual')}</div>
+          <div class="card">
+            <p class="muted">Pergunte sobre razão, proporção, direta, inversa ou regra de três. Eu respondo e leio em voz alta.</p>
+            <div class="inline"><input id="duvida" type="text" placeholder="Escreva sua pergunta..."/><button class="btn" id="responder">Responder</button></div>
+            <div class="inline" style="margin-top:10px"><button class="btn secondary" id="repetir">🔊 Repetir</button><button class="btn secondary" id="parar">⏹ Parar</button></div>
+            <div id="resposta" class="step" style="margin-top:12px"></div>
           </div>`;
         const explicar=(txt)=>{
           const d=(txt||'').toLowerCase(); let r='';
@@ -433,22 +451,22 @@
       let inputHtml = '';
       if(q.tipo==='numero') inputHtml = `<input type="number" step="any" data-id="${id}" placeholder="Sua resposta" />`;
       if(q.tipo==='texto') inputHtml = `<input type="text" data-id="${id}" placeholder="Sua resposta" />`;
-      if(q.tipo==='alternativas') inputHtml = q.alternativas.map((alt,i)=>`<label class=\"inline\" style=\"gap:8px\"><input type=\"radio\" name=\"${id}\" value=\"${i}\"/> <span>${alt}</span></label>`).join('');
+      if(q.tipo==='alternativas') inputHtml = q.alternativas.map((alt,i)=>`<label class="inline" style="gap:8px"><input type="radio" name="${id}" value="${i}"/> <span>${alt}</span></label>`).join('');
       return `
-        <div class=\"grid ${single?'' : 'two'}\">
-          <div class=\"card\">
-            <h3 style=\"margin-top:0\">${single? 'Problema' : 'Questão'}</h3>
+        <div class="grid ${single?'' : 'two'}">
+          <div class="card">
+            <h3 style="margin-top:0">${single? 'Problema' : 'Questão'}</h3>
             <p>${q.enunciado}</p>
-            ${q.img?`<img src=\"${q.img}\" alt=\"\" style=\"max-width:100%;border-radius:12px;border:1px solid var(--border)\"/>`:''}
-            <div style=\"margin-top:10px\">${inputHtml}</div>
-            <div class=\"inline\" style=\"margin-top:12px\"><button class=\"btn\" data-corrigir=\"${id}\">Corrigir</button>${single? '' : '<button class=\"btn secondary\" data-pular=\"'+id+'\">Pular</button>'}</div>
-            <div id=\"fb-${id}\" class=\"foot\"></div>
+            ${q.img?`<img src="${q.img}" alt="" style="max-width:100%;border-radius:12px;border:1px solid var(--border)"/>`:''}
+            <div style="margin-top:10px">${inputHtml}</div>
+            <div class="inline" style="margin-top:12px"><button class="btn" data-corrigir="${id}">Corrigir</button>${single? '' : '<button class="btn secondary" data-pular="'+id+'">Pular</button>'}</div>
+            <div id="fb-${id}" class="foot"></div>
           </div>
-          <div class=\"card\"><h3 style=\"margin-top:0\">Resolução</h3><div id=\"res-${id}\"></div></div>
+          <div class="card"><h3 style="margin-top:0">Resolução</h3><div id="res-${id}"></div></div>
         </div>`
     }
 
-    function renderQuestoes(lista, view){ $('#content').innerHTML = `<div class=\"card\"><h2>${view==='simulado'?('🏆 Simulado – '+lista.length+' questões'):'📝 Exercícios'}</h2><p class=\"muted\">Responda, clique em Corrigir e veja a solução ao lado.</p></div>` + lista.map(q=>renderQuestao(q)).join(''); attachCorrection('#content', lista); }
+    function renderQuestoes(lista, view){ $('#content').innerHTML += `<div class="card"><h2>${view==='simulado'?('🏆 Simulado – '+lista.length+' questões'):'📝 Exercícios'}</h2><p class="muted">Responda, clique em Corrigir e veja a solução ao lado.</p></div>` + lista.map(q=>renderQuestao(q)).join(''); attachCorrection('#content', lista); }
 
     // Correção + gabarito quando necessário
     function attachCorrection(rootSel, lista){
@@ -513,13 +531,12 @@
      * GERADOR DE PROBLEMAS
      **************************************************************/
     function gerarProblema(tema, tipo){
-      const pick = (arr)=>arr[randInt(0,arr.length-1)];
       const tipos = ['razao','proporcao','direta','inversa','regra3']; tipo = tipo || tipos[randInt(0,tipos.length-1)];
 
       if(tema==='esportes'){
-        const jogos = randInt(8,18), v = randInt(0,jogos), d = jogos-v;
+        const jogos = randInt(8,18), v = randInt(0,jogos), d = Math.max(1,jogos-v);
         if(tipo==='razao'){
-          const [p,q]=simplify(v,Math.max(1,d));
+          const [p,q]=simplify(v,d);
           return { enunciado:`Em ${jogos} jogos, um time venceu ${v} e perdeu ${d}. Escreva e simplifique a razão vitórias/derrotas.`, tipo:'texto', gabarito:`${p}/${q}`, correcao:(txt)=>{ const s = txt.replace(/\s/g,''); return s===`${p}/${q}`||s===`${p}:${q}`; }, solução:[`Razão v/d = ${v}/${d}.`,`Simplificando ⇒ ${p}/${q}.`] }
         }
         if(tipo==='proporcao' || tipo==='direta' || tipo==='regra3'){
